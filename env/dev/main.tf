@@ -52,3 +52,46 @@ module "ec2_instances" {
     module.key_pair
   ]
 }
+
+
+module "eks" {
+  source = "../../modules/eks"
+
+  eks_clusters = var.eks_clusters
+}
+
+
+module "alb" {
+  source = "../../modules/alb"
+
+  albs = var.albs
+}
+
+
+module "aurora" {
+  source = "../../modules/aurora"
+
+  aurora_clusters = var.aurora_clusters
+}
+
+
+module "backup" {
+  source = "../../modules/backup"
+
+  backup_vaults = var.backup_vaults
+  backup_plans  = var.backup_plans
+}
+
+
+module "ecr" {
+  source = "../../modules/ecr"
+
+  ecr_repositories = var.ecr_repositories
+}
+
+module "directconnect" {
+  source = "../../modules/directconnect"
+
+  connections        = var.connections
+  virtual_interfaces = var.virtual_interfaces
+}
