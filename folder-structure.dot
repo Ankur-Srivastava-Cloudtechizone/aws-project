@@ -1,0 +1,87 @@
+digraph FolderStructure {
+    rankdir=TB;
+    node [shape=folder, style=filled, fillcolor=lightyellow];
+
+    DARPG [label="DARPG"];
+
+    // env folders
+    DARPG -> dev;
+    DARPG -> preprod;
+    DARPG -> prod;
+    DARPG -> shared_services;
+
+    // module folder
+    DARPG -> module;
+
+    // module subfolders
+    module -> account;
+    module -> ec2;
+    module -> iam_policy;
+    module -> key_pair;
+    module -> s3;
+    module -> sg;
+    module -> vpc;
+
+    // module/account files
+    account -> acc_main [label="main.tf", shape=note];
+    account -> acc_var [label="variables.tf", shape=note];
+    account -> acc_out [label="outputs.tf", shape=note];
+
+    // module/ec2 files
+    ec2 -> ec2_main [label="main.tf", shape=note];
+    ec2 -> ec2_var [label="variables.tf", shape=note];
+    ec2 -> ec2_out [label="outputs.tf", shape=note];
+
+    // module/iam_policy files
+    iam_policy -> iam_main [label="main.tf", shape=note];
+    iam_policy -> iam_var [label="variables.tf", shape=note];
+    iam_policy -> iam_out [label="outputs.tf", shape=note];
+
+    // module/key_pair files
+    key_pair -> kp_main [label="main.tf", shape=note];
+    key_pair -> kp_var [label="variables.tf", shape=note];
+    key_pair -> kp_out [label="outputs.tf", shape=note];
+
+    // module/s3 files
+    s3 -> s3_main [label="main.tf", shape=note];
+    s3 -> s3_var [label="variables.tf", shape=note];
+    s3 -> s3_out [label="outputs.tf", shape=note];
+
+    // module/sg files
+    sg -> sg_main [label="main.tf", shape=note];
+    sg -> sg_var [label="variables.tf", shape=note];
+    sg -> sg_out [label="outputs.tf", shape=note];
+
+    // module/vpc files
+    vpc -> vpc_main [label="main.tf", shape=note];
+    vpc -> vpc_var [label="variables.tf", shape=note];
+    vpc -> vpc_out [label="outputs.tf", shape=note];
+
+    // dev subfiles
+    dev -> dev_main [label="main.tf", shape=note];
+    dev -> dev_provider [label="provider.tf", shape=note];
+    dev -> dev_tfvars [label="terraform.tfvars", shape=note];
+    dev -> dev_variable [label="variable.tf", shape=note];
+    dev -> dev_accounts [label="accounts.auto.tfvars", shape=note];
+
+    // preprod subfiles
+    preprod -> pp_main [label="main.tf", shape=note];
+    preprod -> pp_provider [label="provider.tf", shape=note];
+    preprod -> pp_tfvars [label="terraform.tfvars", shape=note];
+    preprod -> pp_variable [label="variable.tf", shape=note];
+    preprod -> pp_accounts [label="accounts.auto.tfvars", shape=note];
+
+    // prod subfiles
+    prod -> pr_main [label="main.tf", shape=note];
+    prod -> pr_provider [label="provider.tf", shape=note];
+    prod -> pr_tfvars [label="terraform.tfvars", shape=note];
+    prod -> pr_variable [label="variable.tf", shape=note];
+    prod -> pr_accounts [label="accounts.auto.tfvars", shape=note];
+
+    // shared-services subfiles
+    shared_services -> ss_main [label="main.tf", shape=note];
+    shared_services -> ss_provider [label="provider.tf", shape=note];
+    shared_services -> ss_tfvars [label="terraform.tfvars", shape=note];
+    shared_services -> ss_variable [label="variable.tf", shape=note];
+    shared_services -> ss_accounts [label="accounts.auto.tfvars", shape=note];
+}
