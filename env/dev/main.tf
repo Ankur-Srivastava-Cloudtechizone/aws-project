@@ -58,6 +58,9 @@ module "eks" {
   source = "../../modules/eks"
 
   eks_clusters = var.eks_clusters
+  providers = {
+    aws = aws.current
+  }
 }
 
 
@@ -65,6 +68,9 @@ module "alb" {
   source = "../../modules/alb"
 
   albs = var.albs
+  providers = {
+    aws = aws.current
+  }
 }
 
 
@@ -72,6 +78,9 @@ module "aurora" {
   source = "../../modules/aurora"
 
   aurora_clusters = var.aurora_clusters
+  providers = {
+    aws = aws.current
+  }
 }
 
 
@@ -80,6 +89,9 @@ module "backup" {
 
   backup_vaults = var.backup_vaults
   backup_plans  = var.backup_plans
+  providers = {
+    aws = aws.current
+  }
 }
 
 
@@ -87,6 +99,9 @@ module "ecr" {
   source = "../../modules/ecr"
 
   ecr_repositories = var.ecr_repositories
+  providers = {
+    aws = aws.current
+  }
 }
 
 module "directconnect" {
@@ -94,4 +109,7 @@ module "directconnect" {
 
   connections        = var.connections
   virtual_interfaces = var.virtual_interfaces
+  providers = {
+    aws = aws.current
+  }
 }

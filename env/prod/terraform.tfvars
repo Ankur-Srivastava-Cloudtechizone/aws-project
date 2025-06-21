@@ -3,15 +3,16 @@ aws_region = "ap-south-1"
 env        = "dev"
 
 accounts = {
-  prod = {
-    name      = "prod"
-    email     = "aws-prod@example.com"
+  dev = {
+    name      = "dev"
+    email     = "aws-dev@example.com"
     role_name = "OrganizationAccountAccessRole"
     tags = {
-      Environment = "prod"
+      Environment = "dev"
       Owner       = "cloud-team"
     }
   }
+  
 }
 
 
@@ -184,3 +185,166 @@ instances = {
 
 
 key_name = "darpg-ec2-key"
+
+
+eks_clusters = {
+  "prod-cluster-1" = {
+    vpc_id         = "vpc-xxxxxx"
+    subnet_ids     = ["subnet-aaaaa", "subnet-bbbbb"]
+    cluster_version = "1.29"
+  }
+  "prod-cluster-2" = {
+    vpc_id         = "vpc-yyyyyy"
+    subnet_ids     = ["subnet-ccccc", "subnet-ddddd"]
+    cluster_version = "1.29"
+  }
+  "prod-cluster-3" = {
+    vpc_id         = "vpc-zzzzzz"
+    subnet_ids     = ["subnet-eeee", "subnet-fffff"]
+    cluster_version = "1.29"
+  }
+  "prod-cluster-4" = {
+    vpc_id         = "vpc-aaaaaaa"
+    subnet_ids     = ["subnet-ggggg", "subnet-hhhhh"]
+    cluster_version = "1.29"
+  }
+  "prod-cluster-5" = {
+    vpc_id         = "vpc-bbbbbbb"
+    subnet_ids     = ["subnet-iiiii", "subnet-jjjjj"]
+    cluster_version = "1.29"
+  }
+  "prod-cluster-6" = {
+    vpc_id         = "vpc-ccccccc"
+    subnet_ids     = ["subnet-kkkkk", "subnet-lllll"]
+    cluster_version = "1.29"
+  }
+}
+
+
+albs = {
+  "alb-1" = {
+    vpc_id             = "vpc-aaaaaaa"
+    subnet_ids         = ["subnet-11111", "subnet-22222"]
+    security_group_ids = ["sg-aaaa1111"]
+    internal           = false
+  }
+  "alb-2" = {
+    vpc_id             = "vpc-bbbbbbb"
+    subnet_ids         = ["subnet-33333", "subnet-44444"]
+    security_group_ids = ["sg-bbbb2222"]
+    internal           = false
+  }
+  "alb-3" = {
+    vpc_id             = "vpc-ccccccc"
+    subnet_ids         = ["subnet-55555", "subnet-66666"]
+    security_group_ids = ["sg-cccc3333"]
+    internal           = true
+  }
+  "alb-4" = {
+    vpc_id             = "vpc-ddddddd"
+    subnet_ids         = ["subnet-77777", "subnet-88888"]
+    security_group_ids = ["sg-dddd4444"]
+    internal           = false
+  }
+  "alb-5" = {
+    vpc_id             = "vpc-eeeeeee"
+    subnet_ids         = ["subnet-99999", "subnet-aaaaa"]
+    security_group_ids = ["sg-eeee5555"]
+    internal           = true
+  }
+  "alb-6" = {
+    vpc_id             = "vpc-ffffff"
+    subnet_ids         = ["subnet-bbbbb", "subnet-ccccc"]
+    security_group_ids = ["sg-ffff6666"]
+    internal           = false
+  }
+}
+
+
+aurora_clusters = {
+  "aurora-db-1" = {
+    vpc_id                 = "vpc-aaaaaaa"
+    subnet_ids             = ["subnet-11111", "subnet-22222"]
+    engine_version         = "15.4"
+    database_name          = "prod_db1"
+    master_username        = "admin"
+    master_password        = "StrongPassw0rd1"
+    instance_class         = "db.r6g.large"
+    backup_retention_period = 7
+  }
+  "aurora-db-2" = {
+    vpc_id                 = "vpc-bbbbbbb"
+    subnet_ids             = ["subnet-33333", "subnet-44444"]
+    engine_version         = "15.4"
+    database_name          = "prod_db2"
+    master_username        = "admin"
+    master_password        = "StrongPassw0rd2"
+    instance_class         = "db.r6g.large"
+    backup_retention_period = 7
+  }
+  # similarly up to "aurora-db-7"
+}
+
+
+backup_vaults = {
+  "prod-vault-1" = {
+    kms_key_arn = "arn:aws:kms:ap-south-1:xxxxxx:key/yyyyy"
+  }
+  "prod-vault-2" = {
+    kms_key_arn = "arn:aws:kms:ap-south-1:xxxxxx:key/zzzzz"
+  }
+}
+
+backup_plans = {
+  "daily-backup" = {
+    backup_vault_name   = "prod-vault-1"
+    schedule_expression = "cron(0 5 * * ? *)"
+    start_window        = 60
+    completion_window   = 180
+    lifecycle = {
+      cold_storage_after = 30
+      delete_after       = 365
+    }
+  }
+  "weekly-backup" = {
+    backup_vault_name   = "prod-vault-2"
+    schedule_expression = "cron(0 5 ? * SUN *)"
+    start_window        = 60
+    completion_window   = 180
+    lifecycle = {
+      cold_storage_after = 60
+      delete_after       = 730
+    }
+  }
+}
+
+ecr_repositories = {
+  "prod-ecr-repo" = {
+    image_tag_mutability = "MUTABLE"
+    scan_on_push         = true
+  }
+}
+
+connections = {
+  "prod-dx-1" = {
+    location  = "EqDC2"
+    bandwidth = "1Gbps"
+  }
+}
+
+virtual_interfaces = {
+  "prod-dx-vif-1" = {
+    connection_id     = "dxcon-xxxxxxx"
+    name              = "prod-dx-vif-1"
+    vlan              = 101
+    address_family    = "ipv4"
+    bgp_asn           = 65000
+    customer_address  = "175.45.1.2/30"
+    amazon_address    = "175.45.1.1/30"
+    vpn_gateway_id    = "vgw-xxxxxxxx"
+  }
+}
+
+
+
+

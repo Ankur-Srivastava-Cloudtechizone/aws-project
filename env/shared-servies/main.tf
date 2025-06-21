@@ -3,48 +3,6 @@ module "aws_accounts" {
   accounts = var.accounts
 }
 
-
-module "dynamodb_lock" {
-  source              = "../../modules/dynamodb"
-  dynamodb_table_name = "terraform-locks"
-  providers = {
-    aws = aws.current
-  }
-  tags = {
-    Environment = "dev"
-    Project     = "darpg"
-  }
-}
-
-
-module "iam_policy" {
-  source         = "../../modules/iam_policy"
-  s3_bucket      = "darpg-tfstate-bucket"
-  dynamodb_table = "terraform-locks"
-  region         = var.aws_region
-  account_id     = var.aws_account_id
-  providers = {
-    aws = aws.current
-  }
-}
-
-resource "aws_iam_user_policy_attachment" "attach" {
-  user       = "ankur"
-  policy_arn = module.iam_policy.tf_backend_access_arn
-  depends_on = [module.iam_policy]
-}
-
-module "s3_tfstate" {
-  source                   = "../../modules/s3"
-  bucket_name              = var.bucket_name
-  tags                     = var.tags
-  terraform_backend_role_arn = "arn:aws:iam::888184096450:user/ankur"
-  bucket_policy            = jsonencode(var.bucket_policy)
-  providers = {
-    aws = aws.current
-  }
-}
-
 module "vpc" {
   source                 = "../../modules/vpc"
   aws_region            = var.aws_region
@@ -56,6 +14,7 @@ module "vpc" {
     aws = aws.current
   }
 }
+
 
 module "security_group" {
   source         = "../../modules/sg"
@@ -92,4 +51,65 @@ module "ec2_instances" {
     module.security_group,
     module.key_pair
   ]
+}
+
+
+module "eks" {
+  source = "../../modules/eks"
+
+  eks_clusters = var.eks_clusters
+  providers = {
+    aws = aws.current
+  }
+}
+
+
+module "alb" {
+  source = "../../modules/alb"
+
+  albs = var.albs
+  providers = {
+    aws = aws.current
+  }
+}
+
+
+module "aurora" {
+  source = "../../modules/aurora"
+
+  aurora_clusters = var.aurora_clusters
+  providers = {
+    aws = aws.current
+  }
+}
+
+
+module "backup" {
+  source = "../../modules/backup"
+
+  backup_vaults = var.backup_vaults
+  backup_plans  = var.backup_plans
+  providers = {
+    aws = aws.current
+  }
+}
+
+
+module "ecr" {
+  source = "../../modules/ecr"
+
+  ecr_repositories = var.ecr_repositories
+  providers = {
+    aws = aws.current
+  }
+}
+
+module "directconnect" {
+  source = "../../modules/directconnect"
+
+  connections        = var.connections
+  virtual_interfaces = var.virtual_interfaces
+  providers = {
+    aws = aws.current
+  }
 }

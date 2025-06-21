@@ -139,3 +139,91 @@ variable "key_name" {
   description = "Key name to associate with the EC2 instance"
   type        = string
 }
+
+
+variable "eks_clusters" {
+  description = "Map of EKS cluster configs"
+  type = map(object({
+    vpc_id         = string
+    subnet_ids     = list(string)
+    cluster_version = string
+  }))
+}
+
+
+variable "albs" {
+  description = "Map of ALB configurations"
+  type = map(object({
+    vpc_id             = string
+    subnet_ids         = list(string)
+    security_group_ids = list(string)
+    internal           = bool
+  }))
+}
+
+
+variable "aurora_clusters" {
+  description = "Map of Aurora cluster configs"
+  type = map(object({
+    vpc_id                 = string
+    subnet_ids             = list(string)
+    engine_version         = string
+    database_name          = string
+    master_username        = string
+    master_password        = string
+    instance_class         = string
+    backup_retention_period = number
+  }))
+}
+
+variable "backup_vaults" {
+  description = "Map of AWS Backup vault configurations"
+  type = map(object({
+    kms_key_arn = string
+  }))
+}
+
+variable "backup_plans" {
+  description = "Map of AWS Backup plan configurations"
+  type = map(object({
+    backup_vault_name   = string
+    schedule_expression = string
+    start_window        = number
+    completion_window   = number
+    lifecycle = object({
+      cold_storage_after = number
+      delete_after       = number
+    })
+  }))
+}
+
+variable "ecr_repositories" {
+  description = "Map of ECR repository configurations"
+  type = map(object({
+    image_tag_mutability = string
+    scan_on_push         = bool
+  }))
+}
+
+
+variable "connections" {
+  description = "Map of Direct Connect connections"
+  type = map(object({
+    location  = string
+    bandwidth = string
+  }))
+}
+
+variable "virtual_interfaces" {
+  description = "Map of Direct Connect virtual interfaces"
+  type = map(object({
+    connection_id     = string
+    name              = string
+    vlan              = number
+    address_family    = string
+    bgp_asn           = number
+    customer_address  = string
+    amazon_address    = string
+    vpn_gateway_id    = string
+  }))
+}

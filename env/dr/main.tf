@@ -15,6 +15,7 @@ module "vpc" {
   }
 }
 
+
 module "security_group" {
   source         = "../../modules/sg"
   sg_name        = var.sg_name
@@ -50,4 +51,65 @@ module "ec2_instances" {
     module.security_group,
     module.key_pair
   ]
+}
+
+
+module "eks" {
+  source = "../../modules/eks"
+
+  eks_clusters = var.eks_clusters
+  providers = {
+    aws = aws.current
+  }
+}
+
+
+module "alb" {
+  source = "../../modules/alb"
+
+  albs = var.albs
+  providers = {
+    aws = aws.current
+  }
+}
+
+
+module "aurora" {
+  source = "../../modules/aurora"
+
+  aurora_clusters = var.aurora_clusters
+  providers = {
+    aws = aws.current
+  }
+}
+
+
+module "backup" {
+  source = "../../modules/backup"
+
+  backup_vaults = var.backup_vaults
+  backup_plans  = var.backup_plans
+  providers = {
+    aws = aws.current
+  }
+}
+
+
+module "ecr" {
+  source = "../../modules/ecr"
+
+  ecr_repositories = var.ecr_repositories
+  providers = {
+    aws = aws.current
+  }
+}
+
+module "directconnect" {
+  source = "../../modules/directconnect"
+
+  connections        = var.connections
+  virtual_interfaces = var.virtual_interfaces
+  providers = {
+    aws = aws.current
+  }
 }
