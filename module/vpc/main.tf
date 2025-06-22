@@ -1,40 +1,30 @@
-resource "aws_vpc" "main" {
-  cidr_block           = var.vpc_config.cidr_block
-  enable_dns_support   = var.vpc_config.enable_dns_support
-  enable_dns_hostnames = var.vpc_config.enable_dns_hostnames
-  tags                 = var.vpc_config.tags
-}
+resource "aws_vpc" "this" {
+  for_each = var.vpcs
 
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
-  tags   = var.internet_gateway_tags
-}
-
-resource "aws_subnet" "public" {
-  for_each = var.public_subnets
-
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = each.value.cidr_block
-  availability_zone       = each.value.availability_zone
-  map_public_ip_on_launch = each.value.map_public_ip
-  tags                    = each.value.tags
-}
-
-resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
+  cidr_block = each.value.cidr_block
+  tags = {
+    Name = each.key
   }
-
-  tags = var.route_table_tags
 }
 
-resource "aws_route_table_association" "public" {
-  for_each = aws_subnet.public
+resource "aws_subnet" "this" {
+  for_each = { for pair in flatten([
+    for vpc_name, vpc in var.vpcs : [
+      for subnet_name, subnet in vpc.subnets : {
+        key               = "${vpc_name}-${subnet_name}"
+        vpc_name          = vpc_name
+        subnet_name       = subnet_name
+        cidr_block        = subnet.cidr_block
+        availability_zone = subnet.availability_zone
+      }
+    ]
+  ]) : pair.key => pair }
 
-  subnet_id      = each.value.id
-  route_table_id = aws_route_table.public.id
+  vpc_id            = aws_vpc.this[each.value.vpc_name].id
+  cidr_block        = each.value.cidr_block
+  availability_zone = each.value.availability_zone
+
+  tags = {
+    Name = each.value.subnet_name
+  }
 }
-

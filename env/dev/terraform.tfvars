@@ -4,16 +4,10 @@ env        = "dev"
 
 accounts = {
   dev = {
-    name      = "dev"
-    email     = "aws-dev@example.com"
-    role_name = "OrganizationAccountAccessRole"
-    tags = {
-      Environment = "dev"
-      Owner       = "cloud-team"
-    }
+    email = "dev-team@yourcompany.com"
   }
-  
 }
+
 
 
 
@@ -57,9 +51,9 @@ tags = {
 }
 
 
-aws_account_id = "888184096450"
+#  aws_account_id = "888184096450"
 
-dynamodb_table_name = "terraform-locks"
+# dynamodb_table_name = "terraform-locks"
 # tags = {
 #   Environment = "dev"
 #   Project     = "darpg"

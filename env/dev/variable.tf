@@ -4,18 +4,16 @@ variable "aws_region" {
 }
 
 variable "accounts" {
-  description = "List of AWS accounts to create in organization"
+  description = "Map of accounts to create"
   type = map(object({
-    name      = string
-    email     = string
-    role_name = string
-    tags      = map(string)
+    email = string
   }))
 }
-variable "accounts" {
-  description = "Map of environment to AWS Account IDs"
-  type        = map(string)
-}
+
+# variable "accounts" {
+#   description = "Map of environment to AWS Account IDs"
+#   type        = map(string)
+# }
 
 variable "env" {
   description = "Environment name like dev, prod, dr"
@@ -32,16 +30,16 @@ variable "s3_buckets" {
   }))
 }
 
-variable "aws_account_id" {
-  description = "AWS Account ID"
-  type        = string
-}
+# variable "aws_account_id" {
+#   description = "AWS Account ID"
+#   type        = string
+# }
 
 
-variable "dynamodb_table_name" {
-  type        = string
-  description = "The name of the DynamoDB table to be used for state locking."
-}
+# variable "dynamodb_table_name" {
+#   type        = string
+#   description = "The name of the DynamoDB table to be used for state locking."
+# }
 
 variable "tags" {
   type        = map(string)

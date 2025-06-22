@@ -18,10 +18,14 @@ terraform {
   # }
 }
 
+# provider "aws" {
+#   region = var.aws_region
+#   assume_role {
+#     role_arn = "arn:aws:iam::${lookup(var.accounts, var.env)}:role/TerraformExecutionRole"
+#   }
+#   alias  = "current"
+# }
 provider "aws" {
-  region = var.aws_region
-  assume_role {
-    role_arn = "arn:aws:iam::${lookup(var.accounts, var.env)}:role/TerraformExecutionRole"
-  }
-  alias  = "current"
+  region = "ap-south-1"
+  # profile = "default"  # or your named profile if using CLI config
 }
