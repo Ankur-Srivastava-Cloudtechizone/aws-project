@@ -1,40 +1,18 @@
-variable "sg_name" {
-  description = "Name of the security group"
-  type        = string
-}
-
-variable "sg_description" {
-  description = "Description of the security group"
-  type        = string
-}
-
-variable "vpc_id" {
-  description = "VPC ID for the security group"
-  type        = string
-}
-
-variable "tags" {
-  description = "Tags to apply"
-  type        = map(string)
-  default     = {}
-}
-
-variable "ingress_rules" {
-  description = "List of ingress rules"
+variable "security_groups" {
+  description = "Map of security group configs"
   type = map(object({
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
-  }))
-}
-
-variable "egress_rules" {
-  description = "List of egress rules"
-  type = map(object({
-    from_port   = number
-    to_port     = number
-    protocol    = string
-    cidr_blocks = list(string)
+    vpc_id        = string
+    ingress_rules = list(object({
+      from_port   = number
+      to_port     = number
+      protocol    = string
+      cidr_blocks = list(string)
+    }))
+    egress_rules = list(object({
+      from_port   = number
+      to_port     = number
+      protocol    = string
+      cidr_blocks = list(string)
+    }))
   }))
 }

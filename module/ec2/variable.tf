@@ -1,12 +1,10 @@
 variable "instances" {
-  description = "Map of EC2 instance configurations"
+  description = "Map of EC2 instance configs"
   type = map(object({
-    ami                         = string
-    instance_type               = string
-    subnet_name                 = string
-    associate_public_ip_address = bool
-    key_name                    = string
-    sg_name                     = string
-    tags                        = map(string)
+    ami_id       = string
+    subnet_id    = string
+    sg_ids       = list(string)
+    instance_type = string
+    key_name     = string
   }))
 }

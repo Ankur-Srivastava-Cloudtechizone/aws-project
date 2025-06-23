@@ -1,11 +1,11 @@
 resource "aws_security_group" "this" {
-  name        = var.sg_name
-  description = var.sg_description
-  vpc_id      = var.vpc_id
-  tags        = var.tags
+  for_each    = var.security_groups
+  name        = each.key
+  vpc_id      = each.value.vpc_id
+  description = "Managed by Terraform"
 
   dynamic "ingress" {
-    for_each = var.ingress_rules
+    for_each = each.value.ingress_rules
     content {
       from_port   = ingress.value.from_port
       to_port     = ingress.value.to_port
@@ -15,12 +15,16 @@ resource "aws_security_group" "this" {
   }
 
   dynamic "egress" {
-    for_each = var.egress_rules
+    for_each = each.value.egress_rules
     content {
       from_port   = egress.value.from_port
       to_port     = egress.value.to_port
       protocol    = egress.value.protocol
       cidr_blocks = egress.value.cidr_blocks
     }
+  }
+
+  tags = {
+    Name = each.key
   }
 }

@@ -7,9 +7,9 @@ accounts = {
     email = "preproddaprg@gmail.com"
     name  = "preprod"
   }
-  # uat = {
-  #   email = "uatdarpg@gmail.com"
-  #   name  = "uat"
+  # test = {
+  #   email = "testdarpg@gmail.com"
+  #   name  = "test"
   # }
   # dr = {
   #   email = "drdarpg@gmail.com"
@@ -19,10 +19,10 @@ accounts = {
   #   email = "devdarpg@gmail.com"
   #   name  = "dev"
   # }
-  # sharedservices = {
-  #   email = "sharedservicesdarpg@gmail.com"
-  #   name  = "sharedservices"
-  # }
+  sharedservices = {
+    email = "sharedservicesdaprg@gmail.com"
+    name  = "sharedservices"
+  }
 }
 
 users = {

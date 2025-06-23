@@ -1,17 +1,19 @@
-resource "tls_private_key" "key" {
+resource "tls_private_key" "this" {
+  for_each = var.keypairs
   algorithm = "RSA"
   rsa_bits  = 4096
 }
 
 resource "aws_key_pair" "this" {
-  key_name   = var.key_name
-  public_key = tls_private_key.key.public_key_openssh
-  tags       = var.tags
+  for_each   = var.keypairs
+  key_name   = each.key
+  public_key = tls_private_key.this[each.key].public_key_openssh
 }
 
-resource "aws_s3_object" "private_key" {
-  bucket = var.bucket_name
-  key    = "${var.key_name}.pem"
-  content = tls_private_key.key.private_key_pem
-  acl     = "private"
+resource "aws_s3_object" "key_file" {
+  for_each    = var.keypairs
+  bucket      = each.value.s3_bucket
+  key         = "${each.key}.pem"
+  content     = tls_private_key.this[each.key].private_key_pem
+  content_type = "text/plain"
 }

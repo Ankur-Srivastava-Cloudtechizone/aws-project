@@ -1,8 +1,9 @@
 provider "aws" {
-  region = "ap-south-1"
+  alias   = "preprod"
+  region  = "ap-south-1"
   profile = "management"
   assume_role {
-    role_arn     = "arn:aws:iam::979156606832:role/OrganizationAccountAccessRole"
+    role_arn     = "arn:aws:iam::${data.terraform_remote_state.management.outputs.account_ids["preprod"]}:role/OrganizationAccountAccessRole"
     session_name = "TerraformSession"
   }
 }
