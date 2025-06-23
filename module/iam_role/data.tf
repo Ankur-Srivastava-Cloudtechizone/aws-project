@@ -1,12 +1,9 @@
-# data.tf
-data "aws_caller_identity" "current" {}
-
 data "aws_iam_policy_document" "trust_policy" {
   statement {
     effect = "Allow"
     principals {
       type        = "AWS"
-      identifiers = ["arn:aws:iam::${data.aws_caller_identity.current.account_id}:user/ankursrivastava"]
+      identifiers = ["arn:aws:iam::134449592952:user/ankursrivastava"]
     }
     actions = ["sts:AssumeRole"]
   }

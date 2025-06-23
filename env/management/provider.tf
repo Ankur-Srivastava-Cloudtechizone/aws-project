@@ -1,13 +1,26 @@
+# provider.tf
 provider "aws" {
-  alias  = "default"
-  region = "ap-south-1"
+  region  = "ap-south-1"
+  profile = "management"
+}
+
+# Module providers
+provider "aws" {
+  alias   = "preprod"
+  region  = "ap-south-1"
+  profile = "management"
+  assume_role {
+    role_arn     = "arn:aws:iam::${module.aws_accounts.account_ids["preprod"]}:role/OrganizationAccountAccessRole"
+    session_name = "TerraformSession"
+  }
 }
 
 provider "aws" {
-  alias  = "prod"
-  region = "ap-south-1"
+  alias   = "prod"
+  region  = "ap-south-1"
+  profile = "management"
   assume_role {
-    role_arn     = "arn:aws:iam::427220766125:role/OrganizationAccountAccessRole"
+    role_arn     = "arn:aws:iam::${module.aws_accounts.account_ids["prod"]}:role/OrganizationAccountAccessRole"
     session_name = "TerraformSession"
   }
 }

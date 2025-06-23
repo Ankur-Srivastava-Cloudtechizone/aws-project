@@ -1,7 +1,18 @@
-output "management_account_id" {
-  value = data.aws_caller_identity.current.account_id
-}
-
 output "account_ids" {
   value = module.aws_accounts.account_ids
+}
+
+output "role_names" {
+  value = {
+    for env, account_id in module.aws_accounts.account_ids :
+    env => "${var.role_name}"
+  }
+}
+
+output "preprod_role_arn" {
+  value = module.iam_roles_preprod.role_arn
+}
+
+output "prod_role_arn" {
+  value = module.iam_roles_preprod.role_arn
 }

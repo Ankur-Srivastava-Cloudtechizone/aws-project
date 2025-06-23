@@ -4,4 +4,3 @@ resource "aws_organizations_account" "this" {
   email     = each.value.email
   role_name = "OrganizationAccountAccessRole"
 }
-
