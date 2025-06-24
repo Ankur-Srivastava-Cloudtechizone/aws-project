@@ -1,7 +1,15 @@
+data "aws_vpc" "selected" {
+  for_each = var.security_groups
+  filter {
+    name   = "tag:Name"
+    values = [each.value.vpc_name]
+  }
+}
+
 resource "aws_security_group" "this" {
   for_each    = var.security_groups
   name        = each.key
-  vpc_id      = each.value.vpc_id
+  vpc_id      = data.aws_vpc.selected[each.key].id
   description = "Managed by Terraform"
 
   dynamic "ingress" {

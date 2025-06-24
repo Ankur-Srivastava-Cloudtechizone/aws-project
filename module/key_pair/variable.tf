@@ -1,6 +1,12 @@
 variable "keypairs" {
-  description = "Map of keypair names and their S3 bucket"
+  description = "Map of key pair definitions"
   type = map(object({
-    s3_bucket = string
+    public_key  = string
+    private_key = string
   }))
+}
+
+variable "bucket_name" {
+  description = "S3 bucket name for storing private keys"
+  type        = string
 }

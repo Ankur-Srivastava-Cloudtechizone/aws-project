@@ -1,3 +1,3 @@
 output "key_names" {
-  value = aws_key_pair.this
+  value = { for k, v in aws_key_pair.this : k => v.key_name }
 }

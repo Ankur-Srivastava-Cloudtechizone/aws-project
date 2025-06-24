@@ -5,17 +5,19 @@ module "vpc" {
   vpcs = var.vpcs
 }
 
-module "keypairs" {
-  source   = "../../module/key_pair"
-  keypairs = var.keypairs
-}
+# module "keypairs" {
+#   source      = "../../module/key_pair"
+#   keypairs    = var.keypairs
+#   bucket_name = var.key_backup_bucket
+# }
+
 
 module "security_groups" {
   source          = "../../module/sg"
   security_groups = var.security_groups
 }
 
-module "instances" {
-  source    = "../../module/ec2"
-  instances = var.instances
-}
+# module "instances" {
+#   source    = "../../module/ec2"
+#   instances = var.instances
+# }

@@ -18,17 +18,17 @@ vpcs = {
 
 ### Keypair
 
-keypairs = {
-  "prod-key1" = { s3_bucket = "darpg-prod-key-bucket" }
-  "prod-key2" = { s3_bucket = "darpg-prod-key-bucket" }
-}
+# keypairs = {
+#   "prod-key1" = { s3_bucket = "darpg-prod-key-bucket" }
+#   "prod-key2" = { s3_bucket = "darpg-prod-key-bucket" }
+# }
 
 
 ### Security Group
 
 security_groups = {
   "prod-sg1" = {
-    vpc_id = "vpc-0cdd16f2f354547e8"
+    vpc_name = "prod-vpc"
     ingress_rules = [
       { from_port = 22, to_port = 22, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
     ]
@@ -37,7 +37,7 @@ security_groups = {
     ]
   },
   "prod-sg2" = {
-    vpc_id = "vpc-0cdd16f2f354547e8"
+    vpc_name = "prod-vpc"
     ingress_rules = [
       { from_port = 80, to_port = 80, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
     ]
@@ -46,6 +46,7 @@ security_groups = {
     ]
   }
 }
+
 
 ### EC2
 
