@@ -1,6 +1,9 @@
 module "vpc" {
   source    = "../../module/vpc"
-  providers = { aws = aws.prod }
+  providers = {
+  aws = aws.prod
+}
+
 
   vpcs = var.vpcs
 }
@@ -20,4 +23,8 @@ module "vpc" {
 module "instances" {
   source    = "../../module/ec2"
   instances = var.instances
+  providers = {
+  aws = aws.prod
+}
+
 }

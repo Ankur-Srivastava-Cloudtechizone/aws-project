@@ -1,36 +1,32 @@
 # provider.tf
 provider "aws" {
-  region  = "ap-south-1"
-  profile = "management"
+  alias  = "management"
+  region = "ap-south-1"
 }
 
-# Module providers
 provider "aws" {
-  alias   = "preprod"
-  region  = "ap-south-1"
-  profile = "management"
+  alias      = "prod"
+  region     = "ap-south-1"
   assume_role {
-    role_arn     = "arn:aws:iam::${module.aws_accounts.account_ids["preprod"]}:role/OrganizationAccountAccessRole"
-    session_name = "TerraformSession"
+    role_arn     = "arn:aws:iam::<prod_account_id>:role/TerraformExecutionRole"
+    session_name = "AnkurSession"
   }
 }
 
 provider "aws" {
-  alias   = "prod"
-  region  = "ap-south-1"
-  profile = "management"
+  alias      = "preprod"
+  region     = "ap-south-1"
   assume_role {
-    role_arn     = "arn:aws:iam::${module.aws_accounts.account_ids["prod"]}:role/OrganizationAccountAccessRole"
-    session_name = "TerraformSession"
+    role_arn     = "arn:aws:iam::<preprod_account_id>:role/TerraformExecutionRole"
+    session_name = "AnkurSession"
   }
 }
 
 provider "aws" {
-  alias   = "sharedservices"
-  region  = "ap-south-1"
-  profile = "management"
+  alias      = "sharedservices"
+  region     = "ap-south-1"
   assume_role {
-    role_arn     = "arn:aws:iam::${module.aws_accounts.account_ids["sharedservices"]}:role/OrganizationAccountAccessRole"
-    session_name = "TerraformSession"
+    role_arn     = "arn:aws:iam::<preprod_account_id>:role/TerraformExecutionRole"
+    session_name = "AnkurSession"
   }
 }

@@ -1,11 +1,15 @@
 module "aws_accounts" {
   source   = "../../module/account"
   accounts = var.accounts
+  
 }
 
 module "iam_roles_preprod" {
   source    = "../../module/iam_role"
-  providers = { aws = aws.preprod }
+  providers = {
+  aws = aws.management
+}
+
 
   role_name        = "TerraformExecutionRole"
   trusted_accounts = ["arn:aws:iam::134449592952:root"]  # management account ID
@@ -13,19 +17,14 @@ module "iam_roles_preprod" {
 }
 
 
-locals {
-  roles = {
-    TerraformExecutionRole = {
-      role_name  = "TerraformExecutionRole"
-      policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
-      trust_policy = data.aws_iam_policy_document.trust_policy.json
-    }
-  }
-}
+
 
 module "iam_roles_prod" {
   source    = "../../module/iam_role"
-  providers = { aws = aws.prod }
+  providers = {
+  aws = aws.management
+}
+
 
   role_name        = "TerraformExecutionRole"
   trusted_accounts = ["arn:aws:iam::134449592952:root"]  # management account ID
@@ -34,7 +33,10 @@ module "iam_roles_prod" {
 
 module "iam_roles_sharedservices" {
   source    = "../../module/iam_role"
-  providers = { aws = aws.sharedservices }
+  providers = {
+  aws = aws.management
+}
+
 
   role_name        = "TerraformExecutionRole"
   trusted_accounts = ["arn:aws:iam::134449592952:root"]  # management account ID
