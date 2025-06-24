@@ -12,12 +12,12 @@ module "vpc" {
 # }
 
 
-module "security_groups" {
-  source          = "../../module/sg"
-  security_groups = var.security_groups
-}
-
-# module "instances" {
-#   source    = "../../module/ec2"
-#   instances = var.instances
+# module "security_groups" {
+#   source          = "../../module/sg"
+#   security_groups = var.security_groups
 # }
+
+module "instances" {
+  source    = "../../module/ec2"
+  instances = var.instances
+}
