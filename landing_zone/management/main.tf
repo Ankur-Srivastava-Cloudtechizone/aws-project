@@ -3,7 +3,16 @@ module "accounts" {
   providers = {
     aws = aws.management
   }
-  accounts = var.accounts
+  accounts  = var.accounts
+  role_name = var.role_name
+}
+
+module "iam_user_backend_policy" {
+  source = "../../module/iam_user"
+  providers = {
+    aws = aws.management
+  }
+  users = var.users
 }
 
 

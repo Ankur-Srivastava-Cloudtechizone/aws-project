@@ -21,3 +21,4 @@ output "prod_role_arn" {
 output "sharedservices_role_arn" {
   value = module.iam_roles_sharedservices.role_arn
 }
+

@@ -1,3 +1,3 @@
-output "ec2_ids" {
-  value = aws_instance.this
+output "instance_ids" {
+  value = { for k, v in aws_instance.this : k => v.id }
 }

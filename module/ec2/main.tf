@@ -1,14 +1,13 @@
 resource "aws_instance" "this" {
-  for_each                    = var.instances
-  ami                         = each.value.ami
+  for_each = var.instances
+
+  ami                         = each.value.ami_id
   instance_type               = each.value.instance_type
-  subnet_id                   = each.value.subnet_id
-  vpc_security_group_ids      = each.value.vpc_security_group_ids
+  subnet_id                   = data.aws_subnet.selected.id
+  vpc_security_group_ids      = [data.aws_security_group.selected.id]
   key_name                    = each.value.key_name
-  associate_public_ip_address = true
 
   tags = {
-    Name = each.key
+    Name = each.value.instance_name
   }
 }
-

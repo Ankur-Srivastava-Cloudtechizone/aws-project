@@ -9,17 +9,35 @@ variable "vpcs" {
 }
 
 variable "security_groups" {}
-variable "instances" {}
 
-variable "keypairs" {
-  description = "Map of key pair definitions"
+
+variable "keypair_name" {
+  description = "Name of EC2 key pair"
+  type        = string
+}
+
+variable "keypair_folder" {
+  description = "Folder name inside s3 bucket"
+  type        = string
+}
+
+
+variable "instances" {
   type = map(object({
-    public_key  = string
-    private_key = string
+    ami_id             = string
+    instance_type      = string
+    key_name           = string
+    instance_name      = string
   }))
 }
 
-variable "bucket_name" {
-  description = "S3 bucket name for storing private keys"
+variable "subnet_name" {
+  description = "Name tag of the subnet"
   type        = string
 }
+
+variable "security_group_name" {
+  description = "Name tag of the security group"
+  type        = string
+}
+

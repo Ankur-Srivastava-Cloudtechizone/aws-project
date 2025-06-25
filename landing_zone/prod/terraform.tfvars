@@ -22,31 +22,50 @@ vpcs = {
 
 ## Keypair
 
-keypairs = {
-  "prod-key1" = { s3_bucket = "darpg-prod-key-bucket" }
-  "prod-key2" = { s3_bucket = "darpg-prod-key-bucket" }
-}
+keypair_name   = "darpg-prod-keypair"
+keypair_folder = "key-pair"
 
 
 ### Security Group
 
 security_groups = {
-  "prod-sg1" = {
-    vpc_name = "prod-vpc"
+  "prod-web-sg" = {
+    vpc_id = "vpc-0e5a8391321efc84a"
     ingress_rules = [
-      { from_port = 22, to_port = 22, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
+      {
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = ["10.0.0.0/16"]
+      }
     ]
     egress_rules = [
-      { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+      {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
     ]
-  },
-  "prod-sg2" = {
-    vpc_name = "prod-vpc"
+  }
+
+  "prod-db-sg" = {
+    vpc_id = "vpc-0e5a8391321efc84a"
     ingress_rules = [
-      { from_port = 80, to_port = 80, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
+      {
+        from_port   = 3306
+        to_port     = 3306
+        protocol    = "tcp"
+        cidr_blocks = ["10.0.0.0/16"]
+      }
     ]
     egress_rules = [
-      { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+      {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
     ]
   }
 }
@@ -54,20 +73,14 @@ security_groups = {
 
 
 ### EC2
+subnet_name           = "public-subnet-1"
+security_group_name   = "prod-web-sg"
 
 instances = {
-  "prod-ec2-1" = {
-    ami        = "ami-0b09627181c8d5778"
-    subnet_id     = "subnet-02143c01edb972058"
-    vpc_security_group_ids        = ["sg-07634f87ecc7ffc79"]
+  "prod-app-server" = {
+    ami_id        = "ami-0b09627181c8d5778"
     instance_type = "t3.micro"
-    key_name      = "prod-key1"
+    key_name      = "darpg-prod-keypair"
+    instance_name = "prod-app-server"
   }
-  # "prod-ec2-2" = {
-  #   ami_id        = "ami-0abcdef1234567890"
-  #   subnet_id     = "subnet-0db76d3b8fba41f0e"
-  #   sg_ids        = ["sg-0a123456789abcdef"]
-  #   instance_type = "t3.micro"
-  #   key_name      = "prod-key2"
-  # }
 }

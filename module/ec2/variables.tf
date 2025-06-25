@@ -1,9 +1,18 @@
 variable "instances" {
   type = map(object({
-    ami                    = string
-    instance_type          = string
-    subnet_id              = string
-    vpc_security_group_ids = list(string)
-    key_name               = string
+    ami_id             = string
+    instance_type      = string
+    key_name           = string
+    instance_name      = string
   }))
+}
+
+variable "subnet_name" {
+  description = "Name tag of the subnet"
+  type        = string
+}
+
+variable "security_group_name" {
+  description = "Name tag of the security group"
+  type        = string
 }

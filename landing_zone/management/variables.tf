@@ -1,9 +1,16 @@
 # variables.tf
 variable "accounts" {
   type = map(object({
-    email = string
-    name  = string
+    name        = string
+    email       = string
+    parent_id   = string
+    environment = string
   }))
+}
+variable "role_name" {
+  description = "IAM Role Name for the new AWS account"
+  type        = string
+  default     = "OrganizationAccountAccessRole"
 }
 
 variable "users" {
@@ -11,10 +18,4 @@ variable "users" {
     user_name  = string
     policy_arn = string
   }))
-}
-
-variable "role_name" {
-  description = "The role name to assume in each target account"
-  type        = string
-  default     = "OrganizationAccountAccessRole"
 }

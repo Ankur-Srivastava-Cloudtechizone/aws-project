@@ -1,17 +1,17 @@
-resource "aws_key_pair" "this" {
-  for_each   = var.keypairs
-  key_name   = each.key
-  public_key = each.value.public_key
+resource "tls_private_key" "ec2_keypair" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
 }
 
-resource "aws_s3_object" "key_file" {
-  for_each = var.keypairs
+resource "aws_key_pair" "ec2_keypair" {
+  key_name   = var.keypair_name
+  public_key = tls_private_key.ec2_keypair.public_key_openssh
+}
 
-  bucket  = var.bucket_name
-  key     = "key/${each.key}.pem"
-  content = each.value.private_key
+resource "aws_s3_object" "ec2_private_key" {
+  bucket = var.s3_bucket_name
+  key    = "${var.folder_name}/${var.keypair_name}.pem"
+  content = tls_private_key.ec2_keypair.private_key_pem
 
-  tags = {
-    Name = "${each.key} private key"
-  }
+  server_side_encryption = "AES256"
 }

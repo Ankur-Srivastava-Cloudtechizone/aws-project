@@ -17,4 +17,3 @@ data "terraform_remote_state" "sharedservices" {
     profile = "management"
   }
 }
-
