@@ -20,12 +20,12 @@ vpcs = {
   }
 }
 
-### Keypair
+## Keypair
 
-# keypairs = {
-#   "prod-key1" = { s3_bucket = "darpg-prod-key-bucket" }
-#   "prod-key2" = { s3_bucket = "darpg-prod-key-bucket" }
-# }
+keypairs = {
+  "prod-key1" = { s3_bucket = "darpg-prod-key-bucket" }
+  "prod-key2" = { s3_bucket = "darpg-prod-key-bucket" }
+}
 
 
 ### Security Group

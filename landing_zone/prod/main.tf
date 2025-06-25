@@ -15,16 +15,15 @@ module "vpc" {
 # }
 
 
-# module "security_groups" {
-#   source          = "../../module/sg"
-#   security_groups = var.security_groups
+module "security_groups" {
+  source          = "../../module/sg"
+  security_groups = var.security_groups
+}
+
+# module "instances" {
+#   source    = "../../module/ec2"
+#   instances = var.instances
+#   providers = {
+#   aws = aws.prod
 # }
 
-module "instances" {
-  source    = "../../module/ec2"
-  instances = var.instances
-  providers = {
-  aws = aws.prod
-}
-
-}

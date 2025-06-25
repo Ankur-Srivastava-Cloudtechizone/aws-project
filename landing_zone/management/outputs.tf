@@ -1,10 +1,10 @@
 output "account_ids" {
-  value = module.aws_accounts.account_ids
+  value = module.accounts.account_ids
 }
 
 output "role_names" {
   value = {
-    for env, account_id in module.aws_accounts.account_ids :
+    for env, account_id in module.accounts.account_ids :
     env => "${var.role_name}"
   }
 }

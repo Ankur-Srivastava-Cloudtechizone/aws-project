@@ -1,3 +1,12 @@
+module "accounts" {
+  source = "../../module/account"
+  providers = {
+    aws = aws.management
+  }
+  accounts = var.accounts
+}
+
+
 module "iam_roles_prod" {
   source = "../../module/iam_role"
   providers = {
