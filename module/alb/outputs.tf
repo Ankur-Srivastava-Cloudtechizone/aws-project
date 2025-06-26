@@ -1,3 +1,3 @@
-output "alb_dns_names" {
-  value = { for k, v in aws_lb.this : k => v.dns_name }
+output "alb_dns_name" {
+  value = aws_lb.this.dns_name
 }

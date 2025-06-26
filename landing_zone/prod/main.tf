@@ -40,3 +40,20 @@ module "ec2_prod" {
   security_group_name = var.security_group_name
   subnet_name = var.subnet_name
 }
+
+module "alb" {
+  source = "../../module/alb"
+  providers = {
+    aws = aws.prod
+  }
+  name               = "prod-alb"
+  vpc_id             = module.vpc.vpc_ids["prod-vpc"]
+  subnet_ids         = [
+    module.vpc.subnet_ids["prod-vpc-public-subnet-1"],
+    module.vpc.subnet_ids["prod-vpc-public-subnet-2"]
+  ]
+  security_group_ids = [
+    module.security_groups.security_group_ids["prod-web-sg"]
+  ]
+  environment        = "prod"
+}

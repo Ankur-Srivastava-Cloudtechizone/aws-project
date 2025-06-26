@@ -1,9 +1,5 @@
-variable "albs" {
-  description = "Map of ALB configurations"
-  type = map(object({
-    vpc_id             = string
-    subnet_ids         = list(string)
-    security_group_ids = list(string)
-    internal           = bool
-  }))
-}
+variable "name" {}
+variable "vpc_id" {}
+variable "subnet_ids" { type = list(string) }
+variable "security_group_ids" { type = list(string) }
+variable "environment" {}

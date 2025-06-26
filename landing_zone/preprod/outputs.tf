@@ -15,3 +15,6 @@ output "prod_private_key_pem" {
   sensitive = true
 }
 
+output "alb_dns_name" {
+  value = module.alb.alb_dns_name
+}

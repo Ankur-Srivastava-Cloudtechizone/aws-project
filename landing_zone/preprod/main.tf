@@ -42,3 +42,20 @@ module "ec2_prod" {
   depends_on = [ module.security_groups, module.ec2_keypair, module.vpc ]
   
 }
+
+module "alb" {
+  source = "../../module/alb"
+  providers = {
+    aws = aws.preprod
+  }
+  name               = "preprod-alb"
+  vpc_id             = module.vpc.vpc_ids["preprod-vpc"]
+  subnet_ids         = [
+    module.vpc.subnet_ids["preprod-vpc-public-subnet-1"],
+    module.vpc.subnet_ids["preprod-vpc-public-subnet-2"]
+  ]
+  security_group_ids = [
+    module.security_groups.security_group_ids["preprod-web-sg"]
+  ]
+  environment        = "preprod"
+}
