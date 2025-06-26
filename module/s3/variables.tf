@@ -15,3 +15,7 @@ variable "allowed_roles" {
     "arn:aws:iam::987626324847:role/OrganizationAccountAccessRole"
   ]
 }
+variable "organization_id" {
+  description = "AWS Organization ID"
+  type        = string
+}

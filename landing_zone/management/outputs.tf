@@ -1,14 +1,15 @@
 output "account_ids" {
-  value = module.accounts.account_ids
-}
-
-output "role_names" {
   value = {
-    for env, account_id in module.accounts.account_ids :
-    env => "${var.role_name}"
+    for acct in data.aws_organizations_organization.this.accounts :
+    acct.name => acct.id
   }
 }
-
+output "role_names" {
+  value = {
+    for acct in data.aws_organizations_organization.this.accounts :
+    acct.name => "OrganizationAccountAccessRole"
+  }
+}
 output "preprod_role_arn" {
   value = module.iam_roles_preprod.role_arn
 }

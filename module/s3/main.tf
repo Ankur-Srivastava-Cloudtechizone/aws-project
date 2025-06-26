@@ -79,6 +79,23 @@ resource "aws_s3_bucket_policy" "this" {
           "s3:DeleteObject"
         ],
         Resource = "${aws_s3_bucket.this[each.key].arn}/*"
+      },
+
+      # 4️⃣ 🔥 Organization-wide access based on aws:PrincipalOrgID
+      {
+        Sid    = "AllowOrganizationAccess",
+        Effect = "Allow",
+        Principal = "*",
+        Action = "s3:*",
+        Resource = [
+          "${aws_s3_bucket.this[each.key].arn}",
+          "${aws_s3_bucket.this[each.key].arn}/*"
+        ],
+        Condition = {
+          StringEquals = {
+            "aws:PrincipalOrgID" = var.organization_id
+          }
+        }
       }
 
     ]

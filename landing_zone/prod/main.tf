@@ -39,6 +39,7 @@ module "ec2_prod" {
   instances = var.instances
   security_group_name = var.security_group_name
   subnet_name = var.subnet_name
+  depends_on = [ module.vpc ]
 }
 
 module "alb" {
