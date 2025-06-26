@@ -26,11 +26,11 @@ data "terraform_remote_state" "preprod" {
   }
 }
 
-data "terraform_remote_state" "dev" {
-  backend = "s3"
-  config = {
-    bucket = "darpg-shared-backup-central"
-    key    = "dev/terraform.tfstate"
-    region = "ap-south-1"
-  }
-}
+# data "terraform_remote_state" "dev" {
+#   backend = "s3"
+#   config = {
+#     bucket = "darpg-shared-backup-central"
+#     key    = "dev/terraform.tfstate"
+#     region = "ap-south-1"
+#   }
+# }

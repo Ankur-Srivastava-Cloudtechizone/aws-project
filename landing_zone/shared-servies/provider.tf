@@ -7,3 +7,11 @@ provider "aws" {
     session_name = "TerraformSession"
   }
 }
+provider "aws" {
+  alias   = "prod"
+  region  = "ap-south-1"
+  assume_role {
+    role_arn     = "arn:aws:iam::102800182323:role/OrganizationAccountAccessRole"
+    session_name = "TerraformSession"
+  }
+}
