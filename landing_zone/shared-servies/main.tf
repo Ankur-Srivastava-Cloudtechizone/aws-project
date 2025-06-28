@@ -3,18 +3,11 @@ module "s3" {
   providers = {
     aws = aws.sharedservices
   }
-  buckets       = var.buckets
-  organization_id  = data.aws_organizations_organization.this.id
-  allowed_roles = [
-    "arn:aws:iam::${data.terraform_remote_state.management.outputs.account_ids.prod}:role/OrganizationAccountAccessRole",
-    "arn:aws:iam::${data.terraform_remote_state.management.outputs.account_ids.preprod}:role/OrganizationAccountAccessRole",
-    "arn:aws:iam::${data.terraform_remote_state.management.outputs.account_ids.sharedservices}:role/OrganizationAccountAccessRole",
-    "arn:aws:iam::${data.terraform_remote_state.management.outputs.account_ids.daprg}:role/OrganizationAccountAccessRole"
-    # "arn:aws:iam::${data.terraform_remote_state.management.outputs.account_ids.dr}:role/OrganizationAccountAccessRole",
-    # "arn:aws:iam::${data.terraform_remote_state.management.outputs.account_ids.dev}:role/OrganizationAccountAccessRole",
-    # "arn:aws:iam::${data.terraform_remote_state.management.outputs.account_ids.test}:role/OrganizationAccountAccessRole"
-  ]
+  buckets          = var.buckets
+  organization_id  = var.organization_id
+  allowed_roles    = var.allowed_roles
 }
+
 
 # module "transit_gateway_prod" {
 #   source = "../../module/transit_gateway"

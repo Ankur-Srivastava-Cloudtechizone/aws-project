@@ -1,10 +1,18 @@
+sharedservices_account_id = "855407392432"
+
 buckets = {
   "central-backup-bucket" = {
     bucket_name = "darpg-shared-backup-central"
     environment = "sharedservices"
   }
-
 }
+
+organization_id = "o-vop444dcsb"
+
+allowed_roles = [
+  "arn:aws:iam::102800182323:role/OrganizationAccountAccessRole",
+  "arn:aws:iam::987626324847:role/OrganizationAccountAccessRole"
+]
 
 
 ### Transit Gateway

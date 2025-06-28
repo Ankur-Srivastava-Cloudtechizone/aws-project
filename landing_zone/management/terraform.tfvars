@@ -11,24 +11,6 @@ accounts = {
     parent_id   = "r-wzn4"
     environment = "preprod"
   }
-  # test = {
-  #   email = "testdarpg@gmail.com"
-  #   name  = "test"
-  #   parent_id   = "r-wzn4"
-  #   environment = "test"
-  # }
-  # dr = {
-  #   email = "drdarpg@gmail.com"
-  #   name  = "dr"
-  #   parent_id   = "r-wzn4"
-  #   environment = "dr"
-  # }
-  # dev = {
-  #   email = "devdarpg@gmail.com"
-  #   name  = "dev"
-  #   parent_id   = "r-wzn4"
-  #   environment = "dev"
-  # }
   sharedservices = {
     email = "sharedservicesdaprg@gmail.com"
     name  = "sharedservices"
@@ -43,6 +25,3 @@ users = {
     policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
   }
 }
-
-
-

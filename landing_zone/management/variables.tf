@@ -1,4 +1,3 @@
-# variables.tf
 variable "accounts" {
   type = map(object({
     name        = string
@@ -7,6 +6,7 @@ variable "accounts" {
     environment = string
   }))
 }
+
 variable "role_name" {
   description = "IAM Role Name for the new AWS account"
   type        = string

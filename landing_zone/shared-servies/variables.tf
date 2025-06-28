@@ -1,9 +1,26 @@
 variable "buckets" {
-  type = map(object({
+  description = "List of S3 buckets to create"
+  type        = map(object({
     bucket_name = string
     environment = string
   }))
 }
+
+variable "organization_id" {
+  description = "AWS Organization ID"
+  type        = string
+}
+
+variable "allowed_roles" {
+  description = "List of allowed IAM Role ARNs for other accounts"
+  type        = list(string)
+}
+
+variable "sharedservices_account_id" {
+  description = "Account ID of sharedservices account"
+  type        = string
+}
+
 
 
 variable "tgw_name" {

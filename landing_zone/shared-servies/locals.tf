@@ -1,5 +1,5 @@
-locals {
-  project     = "DARPG"
-  environment = "sharedservices"
-  owner       = "ankursrivastava"
-}
+# locals {
+#   project     = "DARPG"
+#   environment = "sharedservices"
+#   owner       = "ankursrivastava"
+# }
