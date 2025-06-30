@@ -22,25 +22,25 @@ module "ec2_keypair" {
 
 
 
-# module "security_groups" {
-#   source = "../../module/security_group"
-#   providers = {
-#     aws = aws.dev
-#   }
-#   security_groups = var.security_groups
-# }
+module "security_groups" {
+  source = "../../module/security_group"
+  providers = {
+    aws = aws.dev
+  }
+  security_groups = var.security_groups
+}
 
 
-# module "ec2_prod" {
-#   source = "../../module/ec2"
-#   providers = {
-#     aws = aws.dev
-#   }
-#   instances = var.instances
-#   security_group_name = var.security_group_name
-#   subnet_name = var.subnet_name
-#   depends_on = [ module.vpc ]
-# }
+module "ec2_prod" {
+  source = "../../module/ec2"
+  providers = {
+    aws = aws.dev
+  }
+  instances = var.instances
+  security_group_name = var.security_group_name
+  subnet_name = var.subnet_name
+  depends_on = [ module.vpc ]
+}
 
 # module "alb" {
 #   source = "../../module/alb"

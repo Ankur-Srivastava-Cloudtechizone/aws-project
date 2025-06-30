@@ -2,18 +2,18 @@
 
 vpcs = {
   "dev-vpc" = {
-    cidr_block = "10.1.0.0/16"
+    cidr_block = "10.0.0.0/16"
     subnets = {
       "public-subnet-1" = {
-        cidr_block        = "10.1.1.0/24"
+        cidr_block        = "10.0.1.0/24"
         availability_zone = "ap-south-1a"
       }
       "public-subnet-2" = {
-        cidr_block        = "10.1.2.0/24"
+        cidr_block        = "10.0.2.0/24"
         availability_zone = "ap-south-1b"
       }
       "public-subnet-3" = {
-        cidr_block        = "10.1.3.0/24"
+        cidr_block        = "10.0.3.0/24"
         availability_zone = "ap-south-1c"
       }
     }
@@ -36,7 +36,7 @@ security_groups = {
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = ["10.1.0.0/16"]
+        cidr_blocks = ["10.0.0.0/16"]
       }
     ]
     egress_rules = [
