@@ -3,6 +3,7 @@ pipeline {
 
   environment {
     ENV_NAME = "prod"
+    AWS_REGION = "ap-south-1"
   }
 
   triggers {
@@ -21,7 +22,13 @@ pipeline {
       steps {
         echo "Initializing Terraform for ${ENV_NAME}..."
         dir("landing_zone/${ENV_NAME}") {
-          sh 'terraform init'
+          withCredentials([usernamePassword(
+            credentialsId: 'aws-access-key',
+            usernameVariable: 'AWS_ACCESS_KEY_ID',
+            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+          )]) {
+            sh 'terraform init'
+          }
         }
       }
     }
@@ -39,7 +46,13 @@ pipeline {
       steps {
         echo "Planning Terraform changes for ${ENV_NAME}..."
         dir("landing_zone/${ENV_NAME}") {
-          sh 'terraform plan -out=tfplan'
+          withCredentials([usernamePassword(
+            credentialsId: 'aws-access-key',
+            usernameVariable: 'AWS_ACCESS_KEY_ID',
+            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+          )]) {
+            sh 'terraform plan -out=tfplan'
+          }
         }
       }
     }
@@ -55,7 +68,13 @@ pipeline {
       steps {
         echo "Applying Terraform changes for ${ENV_NAME}..."
         dir("landing_zone/${ENV_NAME}") {
-          sh 'terraform apply -auto-approve tfplan'
+          withCredentials([usernamePassword(
+            credentialsId: 'aws-access-key',
+            usernameVariable: 'AWS_ACCESS_KEY_ID',
+            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+          )]) {
+            sh 'terraform apply -auto-approve tfplan'
+          }
         }
       }
     }
