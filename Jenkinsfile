@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    ENV_NAME = "prod"
+    ENV_NAME = "dev"
   }
 
   triggers {
