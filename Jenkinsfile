@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    ENV_NAME = "dev"
+    ENV_NAME = "envbranch"
   }
 
   triggers {
