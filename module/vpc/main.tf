@@ -1,82 +1,63 @@
 resource "aws_vpc" "this" {
-  for_each = var.vpcs
+  for_each   = var.vpc_configs
 
   cidr_block = each.value.cidr_block
 
   tags = {
-    Name = each.key
-  }
-}
-
-resource "aws_subnet" "this" {
-  for_each = {
-    for pair in flatten([
-      for vpc_name, vpc in var.vpcs : [
-        for subnet_name, subnet in vpc.subnets : {
-          key               = "${vpc_name}-${subnet_name}"
-          vpc_name          = vpc_name
-          subnet_name       = subnet_name
-          cidr_block        = subnet.cidr_block
-          availability_zone = subnet.availability_zone
-        }
-      ]
-    ]) : pair.key => pair
-  }
-
-  vpc_id            = aws_vpc.this[each.value.vpc_name].id
-  cidr_block        = each.value.cidr_block
-  availability_zone = each.value.availability_zone
-
-  tags = {
-    Name = each.value.subnet_name
+    Name        = "${var.environment}-${each.key}-vpc"
+    Environment = var.environment
   }
 }
 
 resource "aws_internet_gateway" "this" {
-  for_each = var.vpcs
+  for_each = aws_vpc.this
 
-  vpc_id = aws_vpc.this[each.key].id
+  vpc_id = each.value.id
 
   tags = {
-    Name = "${each.key}-igw"
+    Name        = "${var.environment}-${each.key}-igw"
+    Environment = var.environment
   }
 }
 
-resource "aws_route_table" "this" {
-  for_each = var.vpcs
+resource "aws_subnet" "public" {
+  for_each = {
+    for subnet_key, subnet_val in var.subnet_configs :
+    subnet_key => subnet_val
+    if subnet_val.type == "public"
+  }
 
-  vpc_id = aws_vpc.this[each.key].id
+  vpc_id            = aws_vpc.this[each.value.vpc_key].id
+  cidr_block        = each.value.cidr_block
+  availability_zone = each.value.az
 
   tags = {
-    Name = "${each.key}-rt"
+    Name        = "${var.environment}-${each.key}-subnet"
+    Environment = var.environment
   }
 }
 
-resource "aws_route" "this" {
-  for_each = var.vpcs
+resource "aws_route_table" "public" {
+  for_each = aws_vpc.this
 
-  route_table_id         = aws_route_table.this[each.key].id
+  vpc_id = each.value.id
+
+  tags = {
+    Name        = "${var.environment}-${each.key}-rt"
+    Environment = var.environment
+  }
+}
+
+resource "aws_route" "public_internet_access" {
+  for_each               = aws_route_table.public
+  route_table_id         = each.value.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.this[each.key].id
-
-  depends_on = [aws_internet_gateway.this]
 }
 
-resource "aws_route_table_association" "this" {
-  for_each = {
-    for pair in flatten([
-      for vpc_name, vpc in var.vpcs : [
-        for subnet_name, subnet in vpc.subnets : {
-          key        = "${vpc_name}-${subnet_name}"
-          vpc_name   = vpc_name
-          subnet_key = "${vpc_name}-${subnet_name}"
-        }
-      ]
-    ]) : pair.key => pair
-  }
+resource "aws_route_table_association" "public" {
+  for_each = aws_subnet.public
 
-  subnet_id      = aws_subnet.this[each.value.subnet_key].id
-  route_table_id = aws_route_table.this[each.value.vpc_name].id
-
-  depends_on = [aws_subnet.this, aws_route.this]
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.public[each.value.vpc_key].id
 }

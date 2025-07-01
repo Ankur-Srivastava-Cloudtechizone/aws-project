@@ -1,12 +1,11 @@
 module "vpc" {
-  source    = "../../module/vpc"
-  providers = {
-  aws = aws.prod
+  source         = "../../modules/vpc"
+  environment    = var.environment
+  vpc_configs    = var.vpc_configs
+  subnet_configs = var.subnet_configs
 }
 
 
-  vpcs = var.vpcs
-}
 
 module "ec2_keypair" {
   source          = "../../module/key_pair"

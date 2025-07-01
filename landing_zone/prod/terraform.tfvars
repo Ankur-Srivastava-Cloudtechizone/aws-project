@@ -1,24 +1,37 @@
 ###VPC
 
-vpcs = {
-  "prod-vpc" = {
-    cidr_block = "10.0.0.0/16"
-    subnets = {
-      "public-subnet-1" = {
-        cidr_block        = "10.0.1.0/24"
-        availability_zone = "ap-south-1a"
-      }
-      "public-subnet-2" = {
-        cidr_block        = "10.0.2.0/24"
-        availability_zone = "ap-south-1b"
-      }
-      # "public-subnet-3" = {
-      #   cidr_block        = "10.0.3.0/24"
-      #   availability_zone = "ap-south-1c"
-      # }
-    }
+environment = "prod"
+
+vpc_configs = {
+  core = {
+    cidr_block = "10.1.0.0/16"
+  }
+  app = {
+    cidr_block = "10.2.0.0/16"
   }
 }
+
+subnet_configs = {
+  public_subnet_1 = {
+    vpc_key    = "core"
+    cidr_block = "10.1.1.0/24"
+    az         = "ap-south-1a"
+    type       = "public"
+  }
+  public_subnet_2 = {
+    vpc_key    = "core"
+    cidr_block = "10.1.2.0/24"
+    az         = "ap-south-1b"
+    type       = "public"
+  }
+  public_subnet_3 = {
+    vpc_key    = "app"
+    cidr_block = "10.2.1.0/24"
+    az         = "ap-south-1a"
+    type       = "public"
+  }
+}
+
 
 ## Keypair
 
