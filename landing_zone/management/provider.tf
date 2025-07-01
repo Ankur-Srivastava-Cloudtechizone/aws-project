@@ -1,7 +1,7 @@
 provider "aws" {
   alias  = "management"
   region = "ap-south-1"
-  profile = "management"
+  # profile = "management"
 }
 
 provider "aws" {
