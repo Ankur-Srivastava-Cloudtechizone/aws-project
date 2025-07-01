@@ -34,7 +34,7 @@ module "iam_roles_prod" {
   depends_on = [module.accounts]
 }
 
-module "iam_roles_preprod" {
+module "iam_roles_preuat" {
   source = "../../module/iam_role"
   providers = {
     aws = aws.preuat

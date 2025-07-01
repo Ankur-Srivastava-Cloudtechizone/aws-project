@@ -5,7 +5,7 @@ accounts = {
     parent_id   = "r-wzn4"
     environment = "prod"
   }
-  preprod = {
+  preuat = {
     email = "preuatdaprg@gmail.com"
     name  = "preuat"
     parent_id   = "r-wzn4"
