@@ -53,4 +53,13 @@ module "iam_roles_sharedservices" {
   trusted_accounts = [local.management_account_id]
   depends_on = [module.accounts]
 }
-#####asdasdad
+
+module "iam_roles_preprod" {
+  source = "../../module/iam_role"
+  providers = {
+    aws = aws.preprod
+  }
+  role_name        = "TerraformExecutionRole"
+  trusted_accounts = [local.management_account_id]
+  depends_on = [module.accounts]
+}

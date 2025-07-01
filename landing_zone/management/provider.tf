@@ -23,6 +23,15 @@ provider "aws" {
 }
 
 provider "aws" {
+  alias      = "preprod"
+  region     = "ap-south-1"
+  assume_role {
+    role_arn     = "arn:aws:iam::${module.accounts.account_ids["preprod"]}:role/OrganizationAccountAccessRole"
+    session_name = "AnkurSession"
+  }
+}
+
+provider "aws" {
   alias      = "sharedservices"
   region     = "ap-south-1"
   assume_role {

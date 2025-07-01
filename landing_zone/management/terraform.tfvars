@@ -5,17 +5,23 @@ accounts = {
     parent_id   = "r-wzn4"
     environment = "prod"
   }
-  preuat = {
-    email = "preuatdaprg@gmail.com"
+  preprod = {
+    email = "preproddaprg@gmail.com"
     name  = "preuat"
     parent_id   = "r-wzn4"
-    environment = "preuat"
+    environment = "preprod"
   }
   sharedservices = {
     email = "sharedservicesdaprg@gmail.com"
     name  = "sharedservices"
     parent_id   = "r-wzn4"
     environment = "sharedservices"
+  }
+  preuat = {
+    email = "preuatdaprg@gmail.com"
+    name  = "preuat"
+    parent_id   = "r-wzn4"
+    environment = "preuat"
   }
 }
 
