@@ -11,11 +11,11 @@ variable "vpc_configs" {
 }
 
 variable "subnet_configs" {
-  description = "Map of subnet configs"
+  description = "Map of subnet configurations"
   type = map(object({
-    vpc_key    = string
-    cidr_block = string
-    az         = string
-    type       = string
+    cidr_block        = string
+    availability_zone = string
+    public_subnet     = bool
+    tags              = map(string)
   }))
 }

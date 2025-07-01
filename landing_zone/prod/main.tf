@@ -7,6 +7,7 @@ module "vpc" {
 
 
 
+
 module "ec2_keypair" {
   source          = "../../module/key_pair"
   keypair_name    = var.keypair_name
