@@ -28,6 +28,7 @@ module "security_groups" {
     aws = aws.prod
   }
   security_groups = var.security_groups
+  depends_on = [ module.vpc ]
 }
 
 
@@ -39,22 +40,22 @@ module "ec2_prod" {
   instances = var.instances
   security_group_name = var.security_group_name
   subnet_name = var.subnet_name
-  depends_on = [ module.vpc ]
+  depends_on = [ module.vpc,module.security_groups,module.ec2_keypair ]
 }
 
-module "alb" {
-  source = "../../module/alb"
-  providers = {
-    aws = aws.prod
-  }
-  name               = "prod-alb"
-  vpc_id             = module.vpc.vpc_ids["prod-vpc"]
-  subnet_ids         = [
-    module.vpc.subnet_ids["prod-vpc-public-subnet-1"],
-    module.vpc.subnet_ids["prod-vpc-public-subnet-2"]
-  ]
-  security_group_ids = [
-    module.security_groups.security_group_ids["prod-web-sg"]
-  ]
-  environment        = "prod"
-}
+# module "alb" {
+#   source = "../../module/alb"
+#   providers = {
+#     aws = aws.prod
+#   }
+#   name               = "prod-alb"
+#   vpc_id             = module.vpc.vpc_ids["prod-vpc"]
+#   subnet_ids         = [
+#     module.vpc.subnet_ids["prod-vpc-public-subnet-1"],
+#     module.vpc.subnet_ids["prod-vpc-public-subnet-2"]
+#   ]
+#   security_group_ids = [
+#     module.security_groups.security_group_ids["prod-web-sg"]
+#   ]
+#   environment        = "prod"
+# }
