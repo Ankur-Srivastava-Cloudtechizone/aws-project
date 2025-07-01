@@ -16,7 +16,7 @@ output "role_names" {
   }
 }
 
-output "preprod_role_arn" {
+output "preuat_role_arn" {
   value = module.iam_roles_preprod.role_arn
 }
 

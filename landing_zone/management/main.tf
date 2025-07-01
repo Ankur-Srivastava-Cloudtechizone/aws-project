@@ -37,7 +37,7 @@ module "iam_roles_prod" {
 module "iam_roles_preprod" {
   source = "../../module/iam_role"
   providers = {
-    aws = aws.preprod
+    aws = aws.preuat
   }
   role_name        = "TerraformExecutionRole"
   trusted_accounts = [local.management_account_id]

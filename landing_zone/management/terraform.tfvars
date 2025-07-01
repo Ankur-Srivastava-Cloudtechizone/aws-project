@@ -6,10 +6,10 @@ accounts = {
     environment = "prod"
   }
   preprod = {
-    email = "preproddaprg@gmail.com"
-    name  = "preprod"
+    email = "preuatdaprg@gmail.com"
+    name  = "preuat"
     parent_id   = "r-wzn4"
-    environment = "preprod"
+    environment = "preuat"
   }
   sharedservices = {
     email = "sharedservicesdaprg@gmail.com"

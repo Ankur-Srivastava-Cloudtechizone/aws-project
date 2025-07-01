@@ -1,7 +1,7 @@
 module "vpc" {
   source    = "../../module/vpc"
   providers = {
-  aws = aws.preprod
+  aws = aws.preuat
 }
 
 
@@ -15,7 +15,7 @@ module "ec2_keypair" {
   folder_name     = var.keypair_folder
 
   providers = {
-    aws = aws.preprod
+    aws = aws.preuat
   }
 }
 
@@ -25,7 +25,7 @@ module "ec2_keypair" {
 module "security_groups" {
   source = "../../module/security_group"
   providers = {
-    aws = aws.preprod
+    aws = aws.preuat
   }
   security_groups = var.security_groups
 }
@@ -34,7 +34,7 @@ module "security_groups" {
 module "ec2_prod" {
   source = "../../module/ec2"
   providers = {
-    aws = aws.preprod
+    aws = aws.preuat
   }
   instances = var.instances
   security_group_name = var.security_group_name
@@ -46,16 +46,16 @@ module "ec2_prod" {
 module "alb" {
   source = "../../module/alb"
   providers = {
-    aws = aws.preprod
+    aws = aws.preuat
   }
-  name               = "preprod-alb"
-  vpc_id             = module.vpc.vpc_ids["preprod-vpc"]
+  name               = "preuat-alb"
+  vpc_id             = module.vpc.vpc_ids["preuat-vpc"]
   subnet_ids         = [
-    module.vpc.subnet_ids["preprod-vpc-public-subnet-1"],
-    module.vpc.subnet_ids["preprod-vpc-public-subnet-2"]
+    module.vpc.subnet_ids["preuat-vpc-public-subnet-1"],
+    module.vpc.subnet_ids["preuat-vpc-public-subnet-2"]
   ]
   security_group_ids = [
-    module.security_groups.security_group_ids["preprod-web-sg"]
+    module.security_groups.security_group_ids["preuat-web-sg"]
   ]
-  environment        = "preprod"
+  environment        = "preuat"
 }

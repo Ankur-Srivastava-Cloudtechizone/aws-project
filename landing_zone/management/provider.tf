@@ -14,10 +14,10 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias      = "preprod"
+  alias      = "preuat"
   region     = "ap-south-1"
   assume_role {
-    role_arn     = "arn:aws:iam::${module.accounts.account_ids["preprod"]}:role/OrganizationAccountAccessRole"
+    role_arn     = "arn:aws:iam::${module.accounts.account_ids["preuat"]}:role/OrganizationAccountAccessRole"
     session_name = "AnkurSession"
   }
 }
