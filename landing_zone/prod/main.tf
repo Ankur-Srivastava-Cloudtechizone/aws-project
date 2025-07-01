@@ -1,5 +1,5 @@
 module "vpc" {
-  source          = "../../modules/vpc"
+  source          = "../../module/vpc"
   environment     = "prod"
   vpc_cidr_block  = var.vpc_cidr_block
   subnet_configs  = var.subnet_configs
