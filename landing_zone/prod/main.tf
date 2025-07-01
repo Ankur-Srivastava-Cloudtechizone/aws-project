@@ -1,9 +1,11 @@
 module "vpc" {
-  source         = "../../module/vpc"
-  environment    = var.environment
-  vpc_configs    = var.vpc_configs
-  subnet_configs = var.subnet_configs
+  source          = "../../modules/vpc"
+  environment     = "prod"
+  vpc_cidr_block  = var.vpc_cidr_block
+  subnet_configs  = var.subnet_configs
+  tags            = var.tags
 }
+
 
 
 

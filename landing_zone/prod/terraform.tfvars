@@ -2,34 +2,27 @@
 
 environment = "prod"
 
-vpc_configs = {
-  core = {
-    cidr_block = "10.1.0.0/16"
+vpc_cidr_block = "10.0.0.0/16"
+
+subnet_configs = {
+  "subnet-a" = {
+    cidr_block        = "10.0.1.0/24"
+    availability_zone = "ap-south-1a"
+    tags = {
+      Type = "private"
+    }
   }
-  app = {
-    cidr_block = "10.2.0.0/16"
+  "subnet-b" = {
+    cidr_block        = "10.0.2.0/24"
+    availability_zone = "ap-south-1b"
+    tags = {
+      Type = "private"
+    }
   }
 }
 
-subnet_configs = {
-  public_subnet_1 = {
-    vpc_key    = "core"
-    cidr_block = "10.1.1.0/24"
-    az         = "ap-south-1a"
-    type       = "public"
-  }
-  public_subnet_2 = {
-    vpc_key    = "core"
-    cidr_block = "10.1.2.0/24"
-    az         = "ap-south-1b"
-    type       = "public"
-  }
-  public_subnet_3 = {
-    vpc_key    = "app"
-    cidr_block = "10.2.1.0/24"
-    az         = "ap-south-1a"
-    type       = "public"
-  }
+tags = {
+  Project = "DARPG"
 }
 
 

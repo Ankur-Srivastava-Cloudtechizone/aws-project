@@ -1,14 +1,15 @@
-output "prod_vpc_ids" {
-  value = module.vpc.vpc_ids
+output "vpc_id" {
+  value = module.vpc.vpc_id
 }
 
-output "prod_public_subnet_ids" {
-  value = module.vpc.public_subnet_ids
-}
-
-output "prod_private_subnet_ids" {
+output "subnet_ids" {
   value = module.vpc.private_subnet_ids
 }
+
+output "route_table_id" {
+  value = module.vpc.route_table_id
+}
+
 
 output "prod_igw_ids" {
   value = module.vpc.igw_ids

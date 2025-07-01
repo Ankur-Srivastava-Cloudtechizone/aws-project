@@ -1,63 +1,52 @@
 resource "aws_vpc" "this" {
-  for_each   = var.vpc_configs
+  cidr_block = var.vpc_cidr_block
 
-  cidr_block = each.value.cidr_block
-
-  tags = {
-    Name        = "${var.environment}-${each.key}-vpc"
+  tags = merge({
+    Name        = "${var.environment}-vpc"
     Environment = var.environment
-  }
+  }, var.tags)
+}
+
+resource "aws_subnet" "private" {
+  for_each = var.subnet_configs
+
+  vpc_id            = aws_vpc.this.id
+  cidr_block        = each.value.cidr_block
+  availability_zone = each.value.availability_zone
+
+  tags = merge({
+    Name        = "${var.environment}-subnet-${each.key}"
+    Environment = var.environment
+  }, each.value.tags)
 }
 
 resource "aws_internet_gateway" "this" {
-  for_each = aws_vpc.this
+  vpc_id = aws_vpc.this.id
 
-  vpc_id = each.value.id
-
-  tags = {
-    Name        = "${var.environment}-${each.key}-igw"
+  tags = merge({
+    Name        = "${var.environment}-igw"
     Environment = var.environment
-  }
+  }, var.tags)
 }
 
-resource "aws_subnet" "public" {
-  for_each = {
-    for subnet_key, subnet_val in var.subnet_configs :
-    subnet_key => subnet_val
-    if subnet_val.type == "public"
-  }
+resource "aws_route_table" "this" {
+  vpc_id = aws_vpc.this.id
 
-  vpc_id            = aws_vpc.this[each.value.vpc_key].id
-  cidr_block        = each.value.cidr_block
-  availability_zone = each.value.az
-
-  tags = {
-    Name        = "${var.environment}-${each.key}-subnet"
+  tags = merge({
+    Name        = "${var.environment}-rt"
     Environment = var.environment
-  }
+  }, var.tags)
 }
 
-resource "aws_route_table" "public" {
-  for_each = aws_vpc.this
-
-  vpc_id = each.value.id
-
-  tags = {
-    Name        = "${var.environment}-${each.key}-rt"
-    Environment = var.environment
-  }
-}
-
-resource "aws_route" "public_internet_access" {
-  for_each               = aws_route_table.public
-  route_table_id         = each.value.id
+resource "aws_route" "igw_route" {
+  route_table_id         = aws_route_table.this.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.this[each.key].id
+  gateway_id             = aws_internet_gateway.this.id
 }
 
-resource "aws_route_table_association" "public" {
-  for_each = aws_subnet.public
+resource "aws_route_table_association" "private_subnet" {
+  for_each = aws_subnet.private
 
   subnet_id      = each.value.id
-  route_table_id = aws_route_table.public[each.value.vpc_key].id
+  route_table_id = aws_route_table.this.id
 }

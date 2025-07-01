@@ -3,25 +3,22 @@ variable "environment" {
   type        = string
 }
 
-variable "vpc_configs" {
-  description = "Map of VPC configurations"
-  type = map(object({
-    cidr_block           = string
-    enable_dns_hostnames = bool
-    enable_dns_support   = bool
-    tags                 = map(string)
-  }))
+variable "vpc_cidr_block" {
+  type = string
 }
 
 variable "subnet_configs" {
-  description = "Map of subnet configurations"
   type = map(object({
     cidr_block        = string
     availability_zone = string
-    public_subnet     = bool
     tags              = map(string)
   }))
 }
+
+variable "tags" {
+  type = map(string)
+}
+
 
 
 variable "security_groups" {}
