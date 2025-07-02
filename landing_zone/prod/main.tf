@@ -28,11 +28,28 @@ module "security_group" {
 
 
 
-module "ec2" {
-  source         = "../../module/ec2"
-  environment    = var.environment
-  ec2_instances  = var.ec2_instances
+module "vpc" {
+  source      = "../../modules/vpc"
+  environment = var.environment
 }
+
+module "ec2" {
+  source      = "../../modules/ec2"
+  environment = var.environment
+  ec2_instances = {
+    for k, v in var.ec2_instances :
+    k => {
+      ami                = v.ami
+      instance_type      = v.instance_type
+      subnet_id          = module.vpc.subnet_ids[v.subnet_logical_name]
+      key_name           = "darpg-prod-keypair"
+      security_group_ids = [for sg in v.sg_names : module.security_group.security_group_ids[sg]]
+    }
+  }
+}
+
+
+
 
 
 # module "alb" {
