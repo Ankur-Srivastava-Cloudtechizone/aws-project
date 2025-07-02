@@ -66,11 +66,19 @@ security_groups = {
   }
 }
 
-instances = {
-  "prod-app-server" = {
-    ami_id        = "ami-0b09627181c8d5778"
-    instance_type = "t3.micro"
-    key_name      = "darpg-prod-keypair"
-    instance_name = "prod-app-server"
+ec2_instances = {
+  "web-server-1" = {
+    ami                  = "ami-0x123456"
+    instance_type        = "t3.micro"
+    subnet_id            = "subnet-abc"
+    key_name             = "keypair-web"
+    security_group_ids   = ["sg-aaa", "sg-bbb"]
   }
+  # "db-server-1" = {
+  #   ami                  = "ami-0xabcdef"
+  #   instance_type        = "t3.small"
+  #   subnet_id            = "subnet-def"
+  #   key_name             = "keypair-db"
+  #   security_group_ids   = ["sg-ccc"]
+  # }
 }

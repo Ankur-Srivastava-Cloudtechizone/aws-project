@@ -28,21 +28,12 @@ module "security_group" {
 
 
 
-module "ec2_prod" {
-  source = "../../module/ec2"
-
-  providers = {
-    aws = aws.prod
-  }
-
-  instances = var.instances
-
-  # Yahan pe subnet aur SG ka ID pass karenge
-  subnet_id          = module.vpc.private_subnet_ids["public-subnet-1"]
-  security_group_id  = module.security_group.security_group_ids["prod-web-sg"]
-
-  depends_on = [ module.vpc, module.security_group, module.ec2_keypair ]
+module "ec2" {
+  source         = "../../modules/ec2"
+  environment    = var.environment
+  ec2_instances  = var.ec2_instances
 }
+
 
 # module "alb" {
 #   source = "../../module/alb"

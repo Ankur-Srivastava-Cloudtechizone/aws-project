@@ -54,12 +54,12 @@ variable "security_groups" {
 }
 
 # EC2 instances variables
-variable "instances" {
-  description = "Map of EC2 instances to launch"
+variable "ec2_instances" {
   type = map(object({
-    ami_id        = string
-    instance_type = string
-    key_name      = string
-    instance_name = string
+    ami                  = string
+    instance_type        = string
+    subnet_id            = string
+    key_name             = string
+    security_group_ids   = list(string)
   }))
 }
