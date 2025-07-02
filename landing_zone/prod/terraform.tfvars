@@ -36,7 +36,6 @@ keypair_folder = "key-pair"
 
 security_groups = {
   "prod-web-sg" = {
-    vpc_id = "vpc-0e5a8391321efc84a"
     ingress_rules = [
       {
         from_port   = 22
@@ -56,8 +55,7 @@ security_groups = {
   }
 
   "prod-db-sg" = {
-    vpc_id = "vpc-0e5a8391321efc84a"
-    ingress_rules = [
+      ingress_rules = [
       {
         from_port   = 3306
         to_port     = 3306
