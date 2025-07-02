@@ -20,10 +20,10 @@ output "security_group_ids" {
   value = module.security_group.security_group_ids
 }
 
-# output "prod_private_key_pem" {
-#   value     = module.ec2_keypair.private_key_pem
-#   sensitive = true
-# }
+output "prod_private_key_pem" {
+  value     = module.ec2_keypair.private_key_pem
+  sensitive = true
+}
 
 # output "alb_dns_name" {
 #   value = module.alb.alb_dns_name
