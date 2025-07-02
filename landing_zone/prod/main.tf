@@ -29,12 +29,14 @@ module "security_group" {
 
 
 module "vpc" {
-  source      = "../../modules/vpc"
+  source      = "../../module/vpc"
   environment = var.environment
+  vpc_cidr_block = var.vpc_cidr_block
+  subnet_configs = var.subnet_configs
 }
 
 module "ec2" {
-  source      = "../../modules/ec2"
+  source      = "../../module/ec2"
   environment = var.environment
   ec2_instances = {
     for k, v in var.ec2_instances :
