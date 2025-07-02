@@ -55,7 +55,7 @@ security_groups = {
   }
 
   "prod-db-sg" = {
-      ingress_rules = [
+    ingress_rules = [
       {
         from_port   = 3306
         to_port     = 3306
