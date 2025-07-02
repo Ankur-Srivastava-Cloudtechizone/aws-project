@@ -22,9 +22,10 @@ module "ec2_keypair" {
 
 module "security_group" {
   source          = "../../module/security_group"
+  vpc_id          = module.vpc.vpc_id
   security_groups = var.security_groups
-  depends_on = [ module.vpc ]
 }
+
 
 module "ec2_prod" {
   source = "../../module/ec2"
