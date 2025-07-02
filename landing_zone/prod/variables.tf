@@ -38,13 +38,6 @@ variable "security_groups" {
 }
 
 
-variable "vpc_id" {
-  description = "VPC ID where security groups will be created"
-  type        = string
-}
-
-
-
 variable "keypair_name" {
   description = "Name of EC2 key pair"
   type        = string
