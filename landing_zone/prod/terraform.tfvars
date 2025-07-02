@@ -36,7 +36,7 @@ keypair_folder = "key-pair"
 
 security_groups = {
   "prod-web-sg" = {
-    vpc_id = ""
+    # vpc_id = ""
     ingress_rules = [
       {
         from_port   = 22
