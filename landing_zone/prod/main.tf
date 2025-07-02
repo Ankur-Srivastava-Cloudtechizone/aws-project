@@ -1,11 +1,10 @@
 module "vpc" {
   source          = "../../module/vpc"
-  environment     = "prod"
+  environment     = var.environment
   vpc_cidr_block  = var.vpc_cidr_block
   subnet_configs  = var.subnet_configs
   tags            = var.tags
 }
-
 
 
 
@@ -24,15 +23,10 @@ module "ec2_keypair" {
 
 
 
-module "security_groups" {
-  source = "../../module/security_group"
-  providers = {
-    aws = aws.prod
-  }
+module "security_group" {
+  source          = "../../module/security_group"
   security_groups = var.security_groups
-  depends_on = [ module.vpc ]
 }
-
 
 module "ec2_prod" {
   source = "../../module/ec2"
