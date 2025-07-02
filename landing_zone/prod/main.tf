@@ -41,9 +41,7 @@ module "ec2_prod" {
   # Yahan pe subnet aur SG ka ID pass karenge
   subnet_id          = module.vpc.private_subnet_ids["public-subnet-1"]
   security_group_id  = module.security_group.security_group_ids["prod-web-sg"]
-
-  depends_on = [ module.vpc, module.security_group, module.ec2_keypair ]
-}
+  }
 
 
 # module "alb" {
