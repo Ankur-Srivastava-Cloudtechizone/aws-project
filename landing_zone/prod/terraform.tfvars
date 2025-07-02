@@ -78,7 +78,7 @@ security_groups = {
 
 
 ### EC2
-subnet_name           = "public-subnet-1"
+subnet_name           = "subnet-a"
 security_group_name   = "prod-web-sg"
 
 instances = {
