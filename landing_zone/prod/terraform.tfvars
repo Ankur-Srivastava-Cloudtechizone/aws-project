@@ -68,17 +68,10 @@ security_groups = {
 
 ec2_instances = {
   "web-server-1" = {
-    ami                  = "ami-0d03cb826412c6b0f"
-    instance_type        = "t3.micro"
-    subnet_id            = "subnet-abc"
-    key_name             = "darpg-prod-keypair"
-    security_group_ids   = ["prod-web-sg", "prod-db-sg"]
+    ami                 = "ami-0d03cb826412c6b0f"
+    instance_type       = "t3.micro"
+    subnet_logical_name = "prod-public-subnet-1"
+    sg_names            = ["prod-web-sg", "prod-db-sg"]
   }
-  # "db-server-1" = {
-  #   ami                  = "ami-0xabcdef"
-  #   instance_type        = "t3.small"
-  #   subnet_id            = "subnet-def"
-  #   key_name             = "keypair-db"
-  #   security_group_ids   = ["sg-ccc"]
-  # }
 }
+
