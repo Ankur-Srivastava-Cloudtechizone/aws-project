@@ -29,7 +29,7 @@ module "security_group" {
 
 
 module "ec2" {
-  source         = "../../modules/ec2"
+  source         = "../../module/ec2"
   environment    = var.environment
   ec2_instances  = var.ec2_instances
 }
