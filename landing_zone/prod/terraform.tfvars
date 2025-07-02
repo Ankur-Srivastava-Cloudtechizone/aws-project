@@ -2,18 +2,18 @@
 
 environment = "prod"
 
-vpc_cidr_block = "10.0.0.0/16"
+vpc_cidr_block = "10.1.0.0/16"
 
 subnet_configs = {
   "public-subnet-1" = {
-    cidr_block        = "10.0.1.0/24"
+    cidr_block        = "10.1.1.0/24"
     availability_zone = "ap-south-1a"
     tags = {
       Type = "private"
     }
   }
   "public-subnet-2" = {
-    cidr_block        = "10.0.2.0/24"
+    cidr_block        = "10.1.2.0/24"
     availability_zone = "ap-south-1b"
     tags = {
       Type = "private"
@@ -43,7 +43,7 @@ security_groups = {
         from_port   = 22
         to_port     = 22
         protocol    = "tcp"
-        cidr_blocks = ["10.0.0.0/16"]
+        cidr_blocks = ["10.1.0.0/16"]
       }
     ]
     egress_rules = [
@@ -62,7 +62,7 @@ security_groups = {
         from_port   = 3306
         to_port     = 3306
         protocol    = "tcp"
-        cidr_blocks = ["10.0.0.0/16"]
+        cidr_blocks = ["10.1.0.0/16"]
       }
     ]
     egress_rules = [
@@ -79,7 +79,7 @@ security_groups = {
 
 
 ### EC2
-subnet_name           = "subnet-a"
+subnet_name           = "public-subnet-1"
 security_group_name   = "prod-web-sg"
 
 instances = {
