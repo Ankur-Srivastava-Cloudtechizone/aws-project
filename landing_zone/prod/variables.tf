@@ -20,7 +20,7 @@ variable "tags" {
 }
 
 variable "security_groups" {
-  description = "Map of security groups"
+  description = "Map of security groups with their ingress and egress rules"
   type = map(object({
     ingress_rules = list(object({
       from_port   = number
@@ -36,6 +36,7 @@ variable "security_groups" {
     }))
   }))
 }
+
 
 variable "vpc_id" {
   description = "VPC ID where security groups will be created"
