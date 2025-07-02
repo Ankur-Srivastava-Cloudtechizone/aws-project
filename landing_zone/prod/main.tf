@@ -20,12 +20,10 @@ module "ec2_keypair" {
   }
 }
 
-
-
-
 module "security_group" {
   source          = "../../module/security_group"
   security_groups = var.security_groups
+  depends_on = [ module.vpc ]
 }
 
 module "ec2_prod" {
@@ -36,7 +34,7 @@ module "ec2_prod" {
   instances = var.instances
   security_group_name = var.security_group_name
   subnet_name = var.subnet_name
-  depends_on = [ module.vpc,module.security_groups,module.ec2_keypair ]
+  depends_on = [ module.vpc,module.security_group,module.ec2_keypair ]
 }
 
 # module "alb" {
