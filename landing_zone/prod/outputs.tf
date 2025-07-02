@@ -11,12 +11,13 @@ output "route_table_id" {
 }
 
 
-output "prod_igw_ids" {
-  value = module.vpc.igw_ids
+output "prod_igw_id" {
+  value = module.vpc.igw_id
 }
 
+
 output "security_group_ids" {
-  value = module.security_groups.security_group_ids
+  value = module.security_group.security_group_ids
 }
 
 output "prod_private_key_pem" {
