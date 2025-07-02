@@ -6,9 +6,6 @@ module "vpc" {
   tags            = var.tags
 }
 
-
-
-
 module "ec2_keypair" {
   source          = "../../module/key_pair"
   keypair_name    = var.keypair_name
@@ -26,14 +23,6 @@ module "security_group" {
   security_groups = var.security_groups
 }
 
-
-
-module "vpc" {
-  source      = "../../module/vpc"
-  environment = var.environment
-  vpc_cidr_block = var.vpc_cidr_block
-  subnet_configs = var.subnet_configs
-}
 
 module "ec2" {
   source      = "../../module/ec2"
