@@ -1,13 +1,16 @@
+# VPC variables
 variable "environment" {
   description = "The environment name (e.g. dev, preprod, prod)"
   type        = string
 }
 
 variable "vpc_cidr_block" {
-  type = string
+  description = "CIDR block for the VPC"
+  type        = string
 }
 
 variable "subnet_configs" {
+  description = "Configuration for subnets"
   type = map(object({
     cidr_block        = string
     availability_zone = string
@@ -16,9 +19,22 @@ variable "subnet_configs" {
 }
 
 variable "tags" {
-  type = map(string)
+  description = "Tags to apply to all resources"
+  type        = map(string)
 }
 
+# Key Pair variables
+variable "keypair_name" {
+  description = "Name of EC2 key pair"
+  type        = string
+}
+
+variable "keypair_folder" {
+  description = "Folder name inside S3 bucket for keypair"
+  type        = string
+}
+
+# Security Group variables
 variable "security_groups" {
   description = "Map of security groups with their ingress and egress rules"
   type = map(object({
@@ -37,34 +53,13 @@ variable "security_groups" {
   }))
 }
 
-
-variable "keypair_name" {
-  description = "Name of EC2 key pair"
-  type        = string
-}
-
-variable "keypair_folder" {
-  description = "Folder name inside s3 bucket"
-  type        = string
-}
-
-
+# EC2 instances variables
 variable "instances" {
+  description = "Map of EC2 instances to launch"
   type = map(object({
-    ami_id             = string
-    instance_type      = string
-    key_name           = string
-    instance_name      = string
+    ami_id        = string
+    instance_type = string
+    key_name      = string
+    instance_name = string
   }))
 }
-
-variable "subnet_name" {
-  description = "Name tag of the subnet"
-  type        = string
-}
-
-variable "security_group_name" {
-  description = "Name tag of the security group"
-  type        = string
-}
-

@@ -9,16 +9,17 @@ module "vpc" {
 
 
 
-module "ec2_keypair" {
-  source          = "../../module/key_pair"
-  keypair_name    = var.keypair_name
-  s3_bucket_name  = data.terraform_remote_state.sharedservices.outputs.central_backup_bucket_name
-  folder_name     = var.keypair_folder
-
+module "ec2_prod" {
+  source = "../../module/ec2"
   providers = {
     aws = aws.prod
   }
+  instances           = var.instances
+  subnet_id           = module.vpc.private_subnet_ids["public-subnet-1"]
+  security_group_id   = module.security_group.security_group_ids["prod-web-sg"]
+  depends_on          = [ module.vpc, module.security_group, module.ec2_keypair ]
 }
+
 
 module "security_group" {
   source          = "../../module/security_group"
@@ -30,14 +31,20 @@ module "security_group" {
 
 module "ec2_prod" {
   source = "../../module/ec2"
+
   providers = {
     aws = aws.prod
   }
+
   instances = var.instances
-  security_group_name = var.security_group_name
-  subnet_name = var.subnet_name
-  depends_on = [ module.vpc,module.security_group,module.ec2_keypair ]
+
+  # Yahan pe subnet aur SG ka ID pass karenge
+  subnet_id          = module.vpc.private_subnet_ids["public-subnet-1"]
+  security_group_id  = module.security_group.security_group_ids["prod-web-sg"]
+
+  depends_on = [ module.vpc, module.security_group, module.ec2_keypair ]
 }
+
 
 # module "alb" {
 #   source = "../../module/alb"

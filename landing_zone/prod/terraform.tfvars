@@ -1,5 +1,3 @@
-###VPC
-
 environment = "prod"
 
 vpc_cidr_block = "10.1.0.0/16"
@@ -21,23 +19,15 @@ subnet_configs = {
   }
 }
 
-
 tags = {
   Project = "DARPG"
 }
 
-
-## Keypair
-
 keypair_name   = "darpg-prod-keypair"
 keypair_folder = "key-pair"
 
-
-### Security Group
-
 security_groups = {
   "prod-web-sg" = {
-    # vpc_id = ""
     ingress_rules = [
       {
         from_port   = 22
@@ -75,12 +65,6 @@ security_groups = {
     ]
   }
 }
-
-
-
-### EC2
-subnet_name           = "public-subnet-1"
-security_group_name   = "prod-web-sg"
 
 instances = {
   "prod-app-server" = {
