@@ -26,6 +26,7 @@ module "security_group" {
 
 module "ec2" {
   source      = "../../module/ec2"
+  depends_on = [ module.ec2_keypair,module.security_group,module.vpc ]
   environment = var.environment
   ec2_instances = {
     for k, v in var.ec2_instances :
