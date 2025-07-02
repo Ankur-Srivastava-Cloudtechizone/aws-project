@@ -3,10 +3,9 @@ output "vpc_id" {
 }
 
 output "private_subnet_ids" {
-  value = {
-    for key, subnet in aws_subnet.private : key => subnet.id
-  }
+  value = { for k, v in aws_subnet.private : k => v.id }
 }
+
 
 output "route_table_id" {
   value = aws_route_table.this.id
