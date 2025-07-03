@@ -2,8 +2,7 @@ pipeline {
   agent any
 
   environment {
-    ENV_NAME = "management"
-    AWS_REGION = "ap-south-1"
+    ENV_NAME = "prod"
   }
 
   triggers {

@@ -1,4 +1,5 @@
 resource "aws_backup_vault" "this" {
+  provider = aws
   for_each = var.backup_vaults
 
   name        = each.key
@@ -10,6 +11,7 @@ resource "aws_backup_vault" "this" {
 }
 
 resource "aws_backup_plan" "this" {
+  provider = aws
   for_each = var.backup_plans
 
   name = each.key

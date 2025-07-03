@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    ENV_NAME = "management"
+    ENV_NAME = "preuat"
     AWS_REGION = "ap-south-1"
   }
 
@@ -99,5 +99,3 @@ pipeline {
     }
   }
 }
-
-

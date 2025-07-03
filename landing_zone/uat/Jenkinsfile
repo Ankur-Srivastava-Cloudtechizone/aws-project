@@ -2,8 +2,7 @@ pipeline {
   agent any
 
   environment {
-    ENV_NAME = "management"
-    AWS_REGION = "ap-south-1"
+    ENV_NAME = "dev"
   }
 
   triggers {
@@ -11,13 +10,6 @@ pipeline {
   }
 
   stages {
-    stage('Clean Workspace') {
-      steps {
-        echo "Cleaning previous workspace..."
-        cleanWs()
-      }
-    }
-
     stage('Checkout') {
       steps {
         echo "Checking out the prod branch code..."
@@ -29,13 +21,7 @@ pipeline {
       steps {
         echo "Initializing Terraform for ${ENV_NAME}..."
         dir("landing_zone/${ENV_NAME}") {
-          withCredentials([usernamePassword(
-            credentialsId: 'aws-access-key',
-            usernameVariable: 'AWS_ACCESS_KEY_ID',
-            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
-          )]) {
-            sh 'terraform init'
-          }
+          sh 'terraform init'
         }
       }
     }
@@ -53,13 +39,7 @@ pipeline {
       steps {
         echo "Planning Terraform changes for ${ENV_NAME}..."
         dir("landing_zone/${ENV_NAME}") {
-          withCredentials([usernamePassword(
-            credentialsId: 'aws-access-key',
-            usernameVariable: 'AWS_ACCESS_KEY_ID',
-            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
-          )]) {
-            sh 'terraform plan -out=tfplan'
-          }
+          sh 'terraform plan -out=tfplan'
         }
       }
     }
@@ -75,13 +55,7 @@ pipeline {
       steps {
         echo "Applying Terraform changes for ${ENV_NAME}..."
         dir("landing_zone/${ENV_NAME}") {
-          withCredentials([usernamePassword(
-            credentialsId: 'aws-access-key',
-            usernameVariable: 'AWS_ACCESS_KEY_ID',
-            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
-          )]) {
-            sh 'terraform apply -auto-approve tfplan'
-          }
+          sh 'terraform apply -auto-approve tfplan'
         }
       }
     }
@@ -99,5 +73,3 @@ pipeline {
     }
   }
 }
-
-

@@ -1,82 +1,58 @@
 resource "aws_vpc" "this" {
-  for_each = var.vpcs
+  provider   = aws
+  cidr_block = var.vpc_cidr_block
 
-  cidr_block = each.value.cidr_block
-
-  tags = {
-    Name = each.key
-  }
+  tags = merge({
+    Name        = "${var.environment}-vpc"
+    Environment = var.environment
+  }, var.tags)
 }
 
-resource "aws_subnet" "this" {
-  for_each = {
-    for pair in flatten([
-      for vpc_name, vpc in var.vpcs : [
-        for subnet_name, subnet in vpc.subnets : {
-          key               = "${vpc_name}-${subnet_name}"
-          vpc_name          = vpc_name
-          subnet_name       = subnet_name
-          cidr_block        = subnet.cidr_block
-          availability_zone = subnet.availability_zone
-        }
-      ]
-    ]) : pair.key => pair
-  }
+resource "aws_subnet" "private" {
+  provider = aws
+  for_each = var.subnet_configs
 
-  vpc_id            = aws_vpc.this[each.value.vpc_name].id
+  vpc_id            = aws_vpc.this.id
   cidr_block        = each.value.cidr_block
   availability_zone = each.value.availability_zone
 
-  tags = {
-    Name = each.value.subnet_name
-  }
+  tags = merge({
+    Name        = "${var.environment}-${each.key}"
+    Environment = var.environment
+  }, each.value.tags)
 }
 
 resource "aws_internet_gateway" "this" {
-  for_each = var.vpcs
+  provider = aws
+  vpc_id   = aws_vpc.this.id
 
-  vpc_id = aws_vpc.this[each.key].id
-
-  tags = {
-    Name = "${each.key}-igw"
-  }
+  tags = merge({
+    Name        = "${var.environment}-igw"
+    Environment = var.environment
+  }, var.tags)
 }
 
 resource "aws_route_table" "this" {
-  for_each = var.vpcs
+  provider = aws
+  vpc_id   = aws_vpc.this.id
 
-  vpc_id = aws_vpc.this[each.key].id
-
-  tags = {
-    Name = "${each.key}-rt"
-  }
+  tags = merge({
+    Name        = "${var.environment}-rt"
+    Environment = var.environment
+  }, var.tags)
 }
 
-resource "aws_route" "this" {
-  for_each = var.vpcs
-
-  route_table_id         = aws_route_table.this[each.key].id
+resource "aws_route" "igw_route" {
+  provider               = aws
+  route_table_id         = aws_route_table.this.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.this[each.key].id
-
-  depends_on = [aws_internet_gateway.this]
+  gateway_id             = aws_internet_gateway.this.id
 }
 
-resource "aws_route_table_association" "this" {
-  for_each = {
-    for pair in flatten([
-      for vpc_name, vpc in var.vpcs : [
-        for subnet_name, subnet in vpc.subnets : {
-          key        = "${vpc_name}-${subnet_name}"
-          vpc_name   = vpc_name
-          subnet_key = "${vpc_name}-${subnet_name}"
-        }
-      ]
-    ]) : pair.key => pair
-  }
+resource "aws_route_table_association" "private_subnet" {
+  provider = aws
+  for_each = aws_subnet.private
 
-  subnet_id      = aws_subnet.this[each.value.subnet_key].id
-  route_table_id = aws_route_table.this[each.value.vpc_name].id
-
-  depends_on = [aws_subnet.this, aws_route.this]
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.this.id
 }

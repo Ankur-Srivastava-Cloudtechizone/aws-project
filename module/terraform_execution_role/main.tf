@@ -1,4 +1,6 @@
 resource "aws_iam_role" "this" {
+  provider = aws
+
   name = "TerraformExecutionRole"
 
   assume_role_policy = jsonencode({
@@ -16,6 +18,8 @@ resource "aws_iam_role" "this" {
 }
 
 resource "aws_iam_role_policy_attachment" "admin" {
+  provider = aws
+
   role       = aws_iam_role.this.name
   policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }

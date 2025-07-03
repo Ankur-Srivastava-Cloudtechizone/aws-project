@@ -1,4 +1,6 @@
 data "aws_iam_policy_document" "trust_policy" {
+  provider = aws
+
   statement {
     effect = "Allow"
     principals {

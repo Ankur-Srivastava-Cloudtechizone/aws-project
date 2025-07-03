@@ -1,4 +1,5 @@
 resource "aws_s3_bucket" "this" {
+  provider = aws
   for_each = var.buckets
 
   bucket = each.value.bucket_name
@@ -10,6 +11,7 @@ resource "aws_s3_bucket" "this" {
 }
 
 resource "aws_s3_bucket_public_access_block" "this" {
+  provider = aws
   for_each = aws_s3_bucket.this
 
   bucket = each.value.id
@@ -21,6 +23,7 @@ resource "aws_s3_bucket_public_access_block" "this" {
 }
 
 resource "aws_s3_bucket_policy" "this" {
+  provider = aws
   for_each = aws_s3_bucket.this
 
   bucket = each.value.id
@@ -29,7 +32,6 @@ resource "aws_s3_bucket_policy" "this" {
     Version = "2012-10-17",
     Statement = [
 
-      # 1️⃣ Management user access for backend state
       {
         Sid    = "AllowTerraformStateAccess",
         Effect = "Allow",
@@ -50,7 +52,6 @@ resource "aws_s3_bucket_policy" "this" {
         ]
       },
 
-      # 2️⃣ Other account roles access — for bucket metadata
       {
         Sid    = "AllowAccountRolesAccessForBucket",
         Effect = "Allow",
@@ -64,7 +65,6 @@ resource "aws_s3_bucket_policy" "this" {
         Resource = "${aws_s3_bucket.this[each.key].arn}"
       },
 
-      # 3️⃣ Other account roles access — for objects inside bucket
       {
         Sid    = "AllowAccountRolesAccessForObjects",
         Effect = "Allow",
@@ -81,7 +81,6 @@ resource "aws_s3_bucket_policy" "this" {
         Resource = "${aws_s3_bucket.this[each.key].arn}/*"
       },
 
-      # 4️⃣ 🔥 Organization-wide access based on aws:PrincipalOrgID
       {
         Sid    = "AllowOrganizationAccess",
         Effect = "Allow",
