@@ -4,6 +4,9 @@ module "vpc" {
   vpc_cidr_block  = var.vpc_cidr_block
   subnet_configs  = var.subnet_configs
   tags            = var.tags
+  providers = {
+    aws = aws.prod
+  }
 }
 
 module "ec2_keypair" {
@@ -21,6 +24,9 @@ module "security_group" {
   source          = "../../module/security_group"
   vpc_id          = module.vpc.vpc_id
   security_groups = var.security_groups
+  providers = {
+    aws = aws.prod
+  }
 }
 
 
@@ -37,6 +43,9 @@ module "ec2" {
       key_name           = "darpg-prod-keypair"
       security_group_ids = [for sg in v.sg_names : module.security_group.security_group_ids[sg]]
     }
+  }
+  providers = {
+    aws = aws.prod
   }
 }
 
