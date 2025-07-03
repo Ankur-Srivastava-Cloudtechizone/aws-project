@@ -1,13 +1,16 @@
 resource "aws_instance" "this" {
-  for_each = var.instances
+  provider = aws
+  for_each = var.ec2_instances
 
-  ami                         = each.value.ami_id
-  instance_type               = each.value.instance_type
-  subnet_id                   = data.aws_subnet.selected.id
-  vpc_security_group_ids      = [data.aws_security_group.selected.id]
-  key_name                    = each.value.key_name
+  ami                    = each.value.ami
+  instance_type          = each.value.instance_type
+  subnet_id              = each.value.subnet_id
+  key_name               = each.value.key_name
+  vpc_security_group_ids = each.value.security_group_ids
 
   tags = {
-    Name = each.value.instance_name
+    Name        = "${each.key}"
+    Environment = var.environment
+    Project     = "DARPG"
   }
 }

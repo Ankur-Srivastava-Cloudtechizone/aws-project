@@ -3,6 +3,7 @@ pipeline {
 
   environment {
     ENV_NAME = "prod"
+    AWS_REGION = "ap-south-1"
   }
 
   triggers {
@@ -10,6 +11,13 @@ pipeline {
   }
 
   stages {
+    stage('Clean Workspace') {
+      steps {
+        echo "Cleaning previous workspace..."
+        cleanWs()
+      }
+    }
+
     stage('Checkout') {
       steps {
         echo "Checking out the prod branch code..."

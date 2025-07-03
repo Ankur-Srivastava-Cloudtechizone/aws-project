@@ -1,3 +1,6 @@
 output "instance_ids" {
-  value = { for k, v in aws_instance.this : k => v.id }
+  value = {
+    for k, instance in aws_instance.this :
+    k => instance.id
+  }
 }

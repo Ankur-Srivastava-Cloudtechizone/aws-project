@@ -1,8 +1,10 @@
 resource "aws_security_group" "this" {
-  for_each = var.security_groups
+  provider    = aws
+  for_each    = var.security_groups
 
-  name   = each.key
-  vpc_id = each.value.vpc_id
+  name        = each.key
+  description = "Security Group for ${each.key}"
+  vpc_id      = var.vpc_id
 
   dynamic "ingress" {
     for_each = each.value.ingress_rules
@@ -25,7 +27,6 @@ resource "aws_security_group" "this" {
   }
 
   tags = {
-    Name        = each.key
-    Environment = "prod"
+    Name = each.key
   }
 }

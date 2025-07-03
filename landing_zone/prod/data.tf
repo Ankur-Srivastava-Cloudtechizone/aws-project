@@ -4,7 +4,7 @@ data "terraform_remote_state" "management" {
     bucket = "darpg-shared-backup-central"
     key    = "management/terraform.tfstate"
     region = "ap-south-1"
-    profile = "management"
+    # profile = "management"
   }
 }
 
@@ -14,7 +14,7 @@ data "terraform_remote_state" "sharedservices" {
     bucket = "darpg-shared-backup-central"
     key    = "sharedservices/terraform.tfstate"
     region = "ap-south-1"
-    profile = "management"
+    # profile = "management"
   }
 }
 

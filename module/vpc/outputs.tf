@@ -1,7 +1,20 @@
-output "vpc_ids" {
-  value = { for k, v in aws_vpc.this : k => v.id }
+output "vpc_id" {
+  value = aws_vpc.this.id
+}
+
+output "private_subnet_ids" {
+  value = { for k, v in aws_subnet.private : k => v.id }
+}
+
+
+output "route_table_id" {
+  value = aws_route_table.this.id
+}
+
+output "igw_id" {
+  value = aws_internet_gateway.this.id
 }
 
 output "subnet_ids" {
-  value = { for k, v in aws_subnet.this : k => v.id }
+  value = { for k, v in aws_subnet.private : k => v.id }
 }

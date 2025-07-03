@@ -1,4 +1,5 @@
 resource "aws_ec2_transit_gateway" "this" {
+  provider    = aws
   description = "DARPG Central Transit Gateway"
   tags = {
     Name = var.tgw_name
@@ -6,6 +7,7 @@ resource "aws_ec2_transit_gateway" "this" {
 }
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "this" {
+  provider = aws
   for_each = var.vpc_attachments
 
   subnet_ids         = each.value.subnet_ids

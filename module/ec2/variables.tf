@@ -1,18 +1,14 @@
-variable "instances" {
+variable "environment" {
+  description = "Environment name"
+  type        = string
+}
+
+variable "ec2_instances" {
   type = map(object({
-    ami_id             = string
-    instance_type      = string
-    key_name           = string
-    instance_name      = string
+    ami                  = string
+    instance_type        = string
+    subnet_id            = string
+    key_name             = string
+    security_group_ids   = list(string)
   }))
-}
-
-variable "subnet_name" {
-  description = "Name tag of the subnet"
-  type        = string
-}
-
-variable "security_group_name" {
-  description = "Name tag of the security group"
-  type        = string
 }

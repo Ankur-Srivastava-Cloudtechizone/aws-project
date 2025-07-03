@@ -1,7 +1,11 @@
+variable "vpc_id" {
+  description = "VPC ID for security groups"
+  type        = string
+}
+
 variable "security_groups" {
-  description = "Map of security groups to create"
+  description = "Map of security groups with their ingress and egress rules"
   type = map(object({
-    vpc_id        = string
     ingress_rules = list(object({
       from_port   = number
       to_port     = number

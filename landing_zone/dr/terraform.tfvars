@@ -1,67 +1,77 @@
-###VPC
+environment = "prod"
 
-vpcs = {
-  "prod-vpc" = {
-    cidr_block = "10.0.0.0/16"
-    subnets = {
-      "public-subnet-1" = {
-        cidr_block        = "10.0.1.0/24"
-        availability_zone = "ap-south-1a"
-      }
-      "public-subnet-2" = {
-        cidr_block        = "10.0.2.0/24"
-        availability_zone = "ap-south-1b"
-      }
+vpc_cidr_block = "10.1.0.0/16"
+
+subnet_configs = {
+  "prod-public-subnet-1" = {
+    cidr_block        = "10.1.1.0/24"
+    availability_zone = "ap-south-1a"
+    tags = {
+      Type = "private"
+    }
+  }
+  "prod-public-subnet-2" = {
+    cidr_block        = "10.1.2.0/24"
+    availability_zone = "ap-south-1b"
+    tags = {
+      Type = "private"
     }
   }
 }
 
-### Keypair
-
-keypairs = {
-  "prod-key1" = { s3_bucket = "darpg-prod-key-bucket" }
-  "prod-key2" = { s3_bucket = "darpg-prod-key-bucket" }
+tags = {
+  Project = "DARPG"
 }
 
-
-### Security Group
+keypair_name   = "darpg-prod-keypair"
+keypair_folder = "key-pair"
 
 security_groups = {
-  "prod-sg1" = {
-    vpc_id = "vpc-0cdd16f2f354547e8"
+  "prod-web-sg" = {
     ingress_rules = [
-      { from_port = 22, to_port = 22, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
+      {
+        from_port   = 22
+        to_port     = 22
+        protocol    = "tcp"
+        cidr_blocks = ["10.1.0.0/16"]
+      }
     ]
     egress_rules = [
-      { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+      {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
     ]
-  },
-  "prod-sg2" = {
-    vpc_id = "vpc-0cdd16f2f354547e8"
+  }
+
+  "prod-db-sg" = {
     ingress_rules = [
-      { from_port = 80, to_port = 80, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
+      {
+        from_port   = 3306
+        to_port     = 3306
+        protocol    = "tcp"
+        cidr_blocks = ["10.1.0.0/16"]
+      }
     ]
     egress_rules = [
-      { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+      {
+        from_port   = 0
+        to_port     = 0
+        protocol    = "-1"
+        cidr_blocks = ["0.0.0.0/0"]
+      }
     ]
   }
 }
 
-### EC2
-
-instances = {
-  "prod-ec2-1" = {
-    ami_id        = "ami-0abcdef1234567890"
-    subnet_id     = "subnet-023c648a8675008e9"
-    sg_ids        = ["sg-0a123456789abcdef"]
-    instance_type = "t3.micro"
-    key_name      = "prod-key1"
-  },
-  "prod-ec2-2" = {
-    ami_id        = "ami-0abcdef1234567890"
-    subnet_id     = "subnet-0db76d3b8fba41f0e"
-    sg_ids        = ["sg-0a123456789abcdef"]
-    instance_type = "t3.micro"
-    key_name      = "prod-key2"
+ec2_instances = {
+  "web-server-1" = {
+    ami                 = "ami-0d03cb826412c6b0f"
+    instance_type       = "t3.micro"
+    subnet_logical_name = "prod-public-subnet-1"
+    sg_names            = ["prod-web-sg", "prod-db-sg"]
   }
 }
+
