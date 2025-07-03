@@ -1,4 +1,5 @@
 resource "aws_rds_cluster_subnet_group" "this" {
+  provider = aws
   for_each = var.aurora_clusters
 
   name       = "${each.key}-subnet-group"
@@ -6,6 +7,7 @@ resource "aws_rds_cluster_subnet_group" "this" {
 }
 
 resource "aws_rds_cluster" "this" {
+  provider = aws
   for_each = var.aurora_clusters
 
   cluster_identifier      = each.key
@@ -20,10 +22,11 @@ resource "aws_rds_cluster" "this" {
 }
 
 resource "aws_rds_cluster_instance" "this" {
-  for_each              = var.aurora_clusters
+  provider = aws
+  for_each           = var.aurora_clusters
 
-  identifier            = "${each.key}-instance"
-  cluster_identifier    = aws_rds_cluster.this[each.key].id
-  instance_class        = each.value.instance_class
-  engine                = "aurora-postgresql"
+  identifier         = "${each.key}-instance"
+  cluster_identifier = aws_rds_cluster.this[each.key].id
+  instance_class     = each.value.instance_class
+  engine             = "aurora-postgresql"
 }

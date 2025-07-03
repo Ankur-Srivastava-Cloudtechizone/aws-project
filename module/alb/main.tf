@@ -1,4 +1,5 @@
 resource "aws_lb" "this" {
+  provider           = aws
   name               = var.name
   internal           = false
   load_balancer_type = "application"
@@ -12,6 +13,7 @@ resource "aws_lb" "this" {
 }
 
 resource "aws_lb_target_group" "this" {
+  provider = aws
   name     = "${var.name}-tg"
   port     = 80
   protocol = "HTTP"
@@ -32,9 +34,10 @@ resource "aws_lb_target_group" "this" {
 }
 
 resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.this.arn
-  port              = 80
-  protocol          = "HTTP"
+  provider            = aws
+  load_balancer_arn   = aws_lb.this.arn
+  port                = 80
+  protocol            = "HTTP"
 
   default_action {
     type             = "fixed-response"

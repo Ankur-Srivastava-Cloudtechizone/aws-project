@@ -1,4 +1,5 @@
 resource "aws_ecr_repository" "this" {
+  provider = aws
   for_each = var.ecr_repositories
 
   name                 = each.key
