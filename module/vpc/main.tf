@@ -1,4 +1,5 @@
 resource "aws_vpc" "this" {
+  provider   = aws
   cidr_block = var.vpc_cidr_block
 
   tags = merge({
@@ -8,12 +9,13 @@ resource "aws_vpc" "this" {
 }
 
 resource "aws_subnet" "private" {
+  provider = aws
   for_each = var.subnet_configs
 
   vpc_id            = aws_vpc.this.id
   cidr_block        = each.value.cidr_block
   availability_zone = each.value.availability_zone
-  
+
   tags = merge({
     Name        = "${var.environment}-${each.key}"
     Environment = var.environment
@@ -21,7 +23,8 @@ resource "aws_subnet" "private" {
 }
 
 resource "aws_internet_gateway" "this" {
-  vpc_id = aws_vpc.this.id
+  provider = aws
+  vpc_id   = aws_vpc.this.id
 
   tags = merge({
     Name        = "${var.environment}-igw"
@@ -30,7 +33,8 @@ resource "aws_internet_gateway" "this" {
 }
 
 resource "aws_route_table" "this" {
-  vpc_id = aws_vpc.this.id
+  provider = aws
+  vpc_id   = aws_vpc.this.id
 
   tags = merge({
     Name        = "${var.environment}-rt"
@@ -39,12 +43,14 @@ resource "aws_route_table" "this" {
 }
 
 resource "aws_route" "igw_route" {
+  provider               = aws
   route_table_id         = aws_route_table.this.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.this.id
 }
 
 resource "aws_route_table_association" "private_subnet" {
+  provider = aws
   for_each = aws_subnet.private
 
   subnet_id      = each.value.id

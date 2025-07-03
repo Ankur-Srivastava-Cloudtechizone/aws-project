@@ -1,4 +1,5 @@
 resource "aws_organizations_account" "account" {
+  provider  = aws
   for_each  = var.accounts
 
   name      = each.value.name

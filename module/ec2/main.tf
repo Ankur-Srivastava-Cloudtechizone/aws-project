@@ -1,4 +1,5 @@
 resource "aws_instance" "this" {
+  provider = aws
   for_each = var.ec2_instances
 
   ami                    = each.value.ami

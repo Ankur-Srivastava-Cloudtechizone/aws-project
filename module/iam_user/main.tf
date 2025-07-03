@@ -1,10 +1,12 @@
 resource "aws_iam_user" "this" {
+  provider = aws
   for_each = var.users
 
   name = each.value.user_name
 }
 
 resource "aws_iam_user_policy_attachment" "this" {
+  provider = aws
   for_each = var.users
 
   user       = aws_iam_user.this[each.key].name
@@ -12,6 +14,7 @@ resource "aws_iam_user_policy_attachment" "this" {
 }
 
 resource "aws_iam_user_login_profile" "this" {
+  provider = aws
   for_each = var.users
 
   user                    = aws_iam_user.this[each.key].name
@@ -19,8 +22,8 @@ resource "aws_iam_user_login_profile" "this" {
   password_length         = 16
 }
 
-
 resource "aws_iam_policy" "this" {
+  provider    = aws
   name        = "TerraformBackendS3AccessPolicy"
   description = "Policy to allow Terraform user to access S3 backend bucket"
   policy      = data.aws_iam_policy_document.backend_access_policy.json
@@ -42,11 +45,13 @@ data "aws_iam_policy_document" "backend_access_policy" {
 }
 
 resource "aws_iam_user_policy_attachment" "backend_policy_attachment" {
+  provider = aws
   user       = "ankursrivastava"
   policy_arn = aws_iam_policy.this.arn
 }
 
 resource "aws_iam_policy" "console_s3_access" {
+  provider    = aws
   name        = "ConsoleS3ListAndBackupBucketAccess"
   description = "Allow listing all buckets and access darpg-shared-backup-central"
   policy      = data.aws_iam_policy_document.console_s3_access.json
@@ -79,6 +84,7 @@ data "aws_iam_policy_document" "console_s3_access" {
 }
 
 resource "aws_iam_user_policy_attachment" "console_s3_access_attach" {
+  provider = aws
   user       = "ankursrivastava"
   policy_arn = aws_iam_policy.console_s3_access.arn
 }

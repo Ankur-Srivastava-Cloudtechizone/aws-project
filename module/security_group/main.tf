@@ -1,5 +1,6 @@
 resource "aws_security_group" "this" {
-  for_each = var.security_groups
+  provider    = aws
+  for_each    = var.security_groups
 
   name        = each.key
   description = "Security Group for ${each.key}"
