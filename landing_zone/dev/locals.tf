@@ -1,5 +1,5 @@
 locals {
   project     = "DARPG"
-  environment = "prod"
+  environment = "dev"
   owner       = "ankursrivastava"
 }

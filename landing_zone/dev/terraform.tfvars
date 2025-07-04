@@ -1,16 +1,16 @@
-environment = "prod"
+environment = "dev"
 
 vpc_cidr_block = "10.1.0.0/16"
 
 subnet_configs = {
-  "prod-public-subnet-1" = {
+  "dev-public-subnet-1" = {
     cidr_block        = "10.1.1.0/24"
     availability_zone = "ap-south-1a"
     tags = {
       Type = "private"
     }
   }
-  "prod-public-subnet-2" = {
+  "dev-public-subnet-2" = {
     cidr_block        = "10.1.2.0/24"
     availability_zone = "ap-south-1b"
     tags = {
@@ -23,11 +23,11 @@ tags = {
   Project = "DARPG"
 }
 
-keypair_name   = "darpg-prod-keypair"
+keypair_name   = "darpg-dev-keypair"
 keypair_folder = "key-pair"
 
 security_groups = {
-  "prod-web-sg" = {
+  "dev-web-sg" = {
     ingress_rules = [
       {
         from_port   = 22
@@ -46,7 +46,7 @@ security_groups = {
     ]
   }
 
-  "prod-db-sg" = {
+  "dev-db-sg" = {
     ingress_rules = [
       {
         from_port   = 3306
@@ -70,8 +70,8 @@ ec2_instances = {
   "web-server-1" = {
     ami                 = "ami-0d03cb826412c6b0f"
     instance_type       = "t3.micro"
-    subnet_logical_name = "prod-public-subnet-1"
-    sg_names            = ["prod-web-sg", "prod-db-sg"]
+    subnet_logical_name = "dev-public-subnet-1"
+    sg_names            = ["dev-web-sg", "dev-db-sg"]
   }
 }
 
