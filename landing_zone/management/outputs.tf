@@ -16,14 +16,17 @@ output "role_names" {
   }
 }
 
-output "preuat_role_arn" {
+output "dev_role_arn" {
   value = module.iam_roles_preprod.role_arn
 }
+# output "preuat_role_arn" {
+#   value = module.iam_roles_preprod.role_arn
+# }
 
-output "prod_role_arn" {
-  value = module.iam_roles_prod.role_arn
-}
+# output "prod_role_arn" {
+#   value = module.iam_roles_prod.role_arn
+# }
 
-output "sharedservices_role_arn" {
-  value = module.iam_roles_sharedservices.role_arn
-}
+# output "sharedservices_role_arn" {
+#   value = module.iam_roles_sharedservices.role_arn
+# }

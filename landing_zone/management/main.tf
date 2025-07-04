@@ -24,32 +24,42 @@ module "iam_user_backend_policy" {
   depends_on = [module.accounts]
 }
 
-module "iam_roles_prod" {
+module "iam_roles_dev" {
   source = "../../module/iam_role"
   providers = {
-    aws = aws.prod
+    aws = aws.dev
   }
   role_name        = "TerraformExecutionRole"
   trusted_accounts = [local.management_account_id]
   depends_on = [module.accounts]
 }
 
-module "iam_roles_preprod" {
-  source = "../../module/iam_role"
-  providers = {
-    aws = aws.preuat
-  }
-  role_name        = "TerraformExecutionRole"
-  trusted_accounts = [local.management_account_id]
-  depends_on = [module.accounts]
-}
+# module "iam_roles_prod" {
+#   source = "../../module/iam_role"
+#   providers = {
+#     aws = aws.prod
+#   }
+#   role_name        = "TerraformExecutionRole"
+#   trusted_accounts = [local.management_account_id]
+#   depends_on = [module.accounts]
+# }
 
-module "iam_roles_sharedservices" {
-  source = "../../module/iam_role"
-  providers = {
-    aws = aws.sharedservices
-  }
-  role_name        = "TerraformExecutionRole"
-  trusted_accounts = [local.management_account_id]
-  depends_on = [module.accounts]
-}
+# module "iam_roles_preuat" {
+#   source = "../../module/iam_role"
+#   providers = {
+#     aws = aws.preuat
+#   }
+#   role_name        = "TerraformExecutionRole"
+#   trusted_accounts = [local.management_account_id]
+#   depends_on = [module.accounts]
+# }
+
+# module "iam_roles_sharedservices" {
+#   source = "../../module/iam_role"
+#   providers = {
+#     aws = aws.sharedservices
+#   }
+#   role_name        = "TerraformExecutionRole"
+#   trusted_accounts = [local.management_account_id]
+#   depends_on = [module.accounts]
+# }
