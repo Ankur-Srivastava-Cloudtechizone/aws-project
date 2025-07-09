@@ -75,3 +75,31 @@ ec2_instances = {
   }
 }
 
+lambda_functions = {
+  prod_app = {
+    function_name        = "prod-app-lambda"
+    handler              = "index.handler"
+    runtime              = "nodejs18.x"
+    timeout              = 30
+    memory_size          = 512
+    zip_path             = "lambda-deployment-package.zip"
+    role_name            = "prod-app-lambda-role"
+    environment_variables = {
+      ENVIRONMENT = "prod"
+      APP_NAME    = "production-app"
+    }
+  }
+  prod_notify = {
+    function_name        = "prod-notify-lambda"
+    handler              = "notify.handler"
+    runtime              = "nodejs18.x"
+    timeout              = 20
+    memory_size          = 256
+    zip_path             = "notify-package.zip"
+    role_name            = "prod-notify-role"
+    environment_variables = {
+      ENVIRONMENT = "prod"
+      SERVICE     = "notification"
+    }
+  }
+}

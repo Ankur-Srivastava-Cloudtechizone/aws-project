@@ -50,6 +50,13 @@ module "ec2" {
 }
 
 
+# module "lambda_prod" {
+#   source            = "../../modules/lambda"
+#   lambda_functions  = var.lambda_functions
+#   providers = {
+#     aws = aws.prod
+#   }
+# }
 
 
 
